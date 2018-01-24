@@ -9,6 +9,7 @@ class Rateme() {
 
     lateinit var mContext: Context
     lateinit var mConditionList: ArrayList<Condition>
+    private var mDuration = 3
 
     companion object {
 
@@ -51,6 +52,14 @@ class Rateme() {
         return this
     }
 
+    fun delay(delayTime: Long): Rateme {
 
+        return this
+    }
+
+    fun reminderDuration(duration: Int): Rateme {
+        this.mDuration = duration
+        return this
+    }
 
 }
