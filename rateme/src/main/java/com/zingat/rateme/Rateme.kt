@@ -37,10 +37,20 @@ class Rateme() {
         return this
     }
 
-    fun show(){
+    fun show() {
 
 
     }
+
+    fun addEvent(eventName: String): Rateme {
+
+        return this
+    }
+
+    fun remindLater(): Rateme {
+        return this
+    }
+
 
 
 }
