@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/mustafaolkun/Documents/androidprojects/RateMe-Android/rateme/build/intermediates/res/merged/release/values-port/values-port.xml",
+            "map": [
+                {
+                    "source": "/Users/mustafaolkun/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/cc55553671fd8d7a2a36108b20ba09d1/res/values-port/values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/Users/mustafaolkun/Documents/androidprojects/RateMe-Android/rateme/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-port/values-port.xml",
+            "map": [
+                {
+                    "source": "/Users/mustafaolkun/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/cc55553671fd8d7a2a36108b20ba09d1/res/values-port/values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        }
+    ]
+}

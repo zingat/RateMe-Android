@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/mustafaolkun/Documents/androidprojects/RateMe-Android/rateme/build/intermediates/res/merged/release/layout-v21/notification_action.xml",
+        "source": "/Users/mustafaolkun/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/0e61a4c093cdb6260a3938d0a81158b4/res/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "/Users/mustafaolkun/Documents/androidprojects/RateMe-Android/rateme/build/intermediates/res/merged/release/layout-v21/notification_template_icon_group.xml",
+        "source": "/Users/mustafaolkun/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/0e61a4c093cdb6260a3938d0a81158b4/res/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/Users/mustafaolkun/Documents/androidprojects/RateMe-Android/rateme/build/intermediates/res/merged/release/layout-v21/notification_template_custom_big.xml",
+        "source": "/Users/mustafaolkun/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/0e61a4c093cdb6260a3938d0a81158b4/res/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "/Users/mustafaolkun/Documents/androidprojects/RateMe-Android/rateme/build/intermediates/res/merged/release/layout-v21/notification_action_tombstone.xml",
+        "source": "/Users/mustafaolkun/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/0e61a4c093cdb6260a3938d0a81158b4/res/layout-v21/notification_action_tombstone.xml"
+    }
+]
