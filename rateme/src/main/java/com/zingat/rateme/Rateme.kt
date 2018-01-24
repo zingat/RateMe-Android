@@ -1,6 +1,7 @@
 package com.zingat.rateme
 
 import android.content.Context
+import com.zingat.rateme.model.Condition
 
 /**
  * Created by mustafaolkun on 24/01/2018.

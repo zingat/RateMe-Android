@@ -1,4 +1,4 @@
-package com.zingat.rateme
+package com.zingat.rateme.model
 
 /**
  * Created by ismailgungor on 24.01.2018.

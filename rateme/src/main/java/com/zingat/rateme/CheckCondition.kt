@@ -1,5 +1,7 @@
 package com.zingat.rateme
 
+import com.zingat.rateme.model.Condition
+
 /**
  * Created by ismailgungor on 24.01.2018.
  */
