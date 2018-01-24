@@ -1,4 +1,4 @@
-package com.zingat.rateme
+package com.zingat.ratemesample
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle

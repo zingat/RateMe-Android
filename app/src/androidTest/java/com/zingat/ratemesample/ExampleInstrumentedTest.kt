@@ -1,4 +1,4 @@
-package com.zingat.rateme
+package com.zingat.ratemesample
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

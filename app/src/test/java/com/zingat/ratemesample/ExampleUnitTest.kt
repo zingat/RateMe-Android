@@ -1,4 +1,4 @@
-package com.zingat.rateme
+package com.zingat.ratemesample
 
 import org.junit.Test
 
