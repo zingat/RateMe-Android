@@ -1,1 +1,0 @@
-# VoteMe-Android
