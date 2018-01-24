@@ -31,5 +31,16 @@ class Rateme() {
         return this
     }
 
+    fun addCondition(type: String, count: Int): Rateme {
+        val newCondition = Condition(count, type)
+        mConditionList.add(newCondition)
+        return this
+    }
+
+    fun show(){
+
+
+    }
+
 
 }
