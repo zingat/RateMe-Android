@@ -35,6 +35,9 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.6.0'
 
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.assertj:assertj-core:3.9.0'
+    testImplementation "org.mockito:mockito-core:2.13.0"
+
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
