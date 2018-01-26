@@ -54,6 +54,7 @@ class Rateme() {
 
         mDataHelper = DataHelper(this.mContext)
         mCheckCondition = CheckCondition()
+        remindLater()
         setPackageName()
 
     }
@@ -88,27 +89,32 @@ class Rateme() {
 
     fun startShowProcess() {
 
-        val reminderValue = mDataHelper.getReminder()
-        val isReminderEnd = mCheckCondition.isReminderEnd(3, reminderValue)
-        if (isReminderEnd) {
+        val disableList = mDataHelper.findByEventName("disable")
+        val isThereDiableValue = mCheckCondition.isThereDisableValue(disableList)
 
-            if (isWorking) {
+        if (!isThereDiableValue) {
 
-                val eventList: ArrayList<Event> = mDataHelper.getAllEvents()
-                val isConditionComplete = mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
+            val reminderValue = mDataHelper.getReminder()
+            val isReminderEnd = mCheckCondition.isReminderEnd(3, reminderValue)
+            if (!isReminderEnd) {
 
-                if (isConditionComplete) {
+                if (isWorking) {
+
+                    val eventList: ArrayList<Event> = mDataHelper.getAllEvents()
+                    val isConditionComplete = mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
+
+                    if (isConditionComplete) {
+                        showDialog()
+                    }
+
+                } else {
+
                     showDialog()
+
                 }
-
-            } else {
-
-                showDialog()
-
             }
-
-
         }
+
 
     }
 
@@ -197,6 +203,15 @@ class Rateme() {
         mDialog?.getActionButton(DialogAction.NEGATIVE)?.setOnClickListener {
             mDataHelper.deleteEvent("reminder")
             remindLater()
+            mDialog?.dismiss()
+        }
+
+        mDialog?.getActionButton(DialogAction.NEUTRAL)?.setOnClickListener {
+
+            mDataHelper.deleteAll()
+            mDataHelper.saveEvent("disable")
+            mDialog?.dismiss()
+
         }
 
     }
