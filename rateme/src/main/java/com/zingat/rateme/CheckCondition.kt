@@ -50,4 +50,10 @@ class CheckCondition {
         return diffInDays > reminderDuration
 
     }
+
+    fun isThereDisableValue(eventList: ArrayList<Event>): Boolean {
+
+        return eventList.size > 0
+
+    }
 }
