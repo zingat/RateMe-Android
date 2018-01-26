@@ -1,6 +1,7 @@
 package com.zingat.rateme
 
 import android.content.Context
+import com.afollestad.materialdialogs.MaterialDialog
 import com.zingat.rateme.model.Condition
 import com.zingat.rateme.model.Event
 
@@ -63,6 +64,8 @@ class Rateme() {
 
             if (isReminderEnd) {
 
+                showDialog()
+
             }
 
 
@@ -89,6 +92,20 @@ class Rateme() {
     fun reminderDuration(duration: Int): Rateme {
         this.mDuration = duration
         return this
+    }
+
+    // Dialog Methods Starts
+
+    fun showDialog() {
+
+        MaterialDialog.Builder(mContext)
+                .title(mContext.getString(R.string.title))
+                .content(mContext.getString(R.string.message))
+                .positiveText(mContext.getString(R.string.rate))
+                .negativeText(mContext.getString(R.string.remind_me_later))
+                .neutralText(mContext.getString(R.string.dont_ask_again))
+                .show()
+
     }
 
 }
