@@ -104,7 +104,7 @@ class EventsSql(context: Context) {
 
         db.close()
 
-        return ArrayList<Event>()
+        return eventList
     }
 
 
