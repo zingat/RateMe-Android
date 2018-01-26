@@ -47,10 +47,7 @@ class CheckCondition {
         val diffInMilis = currentTime - reminderValue
         val diffInDays = TimeUnit.MILLISECONDS.toDays(diffInMilis)
 
-        if (diffInDays > reminderDuration) {
-            return true
-        }
+        return diffInDays > reminderDuration
 
-        return false
     }
 }
