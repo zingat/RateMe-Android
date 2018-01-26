@@ -11,7 +11,7 @@ import kotlin.collections.ArrayList
  *
  * @since 1.0.0
  */
-class CheckCondition {
+open class CheckCondition {
 
     /**
      * Compares the conditions and datas
@@ -42,7 +42,7 @@ class CheckCondition {
             val currentConditionType = condition.getType()
             val currentConditionValue = condition.getCount()
 
-            if (currentEventMap.containsKey(currentConditionType) && currentEventMap[currentConditionType]!! >= currentConditionValue) {
+            if (currentEventMap.containsKey(currentConditionType) && currentEventMap[currentConditionType] == currentConditionValue) {
                 return true
             }
         }
@@ -74,4 +74,16 @@ class CheckCondition {
     fun isThereConditionCompletedValue(eventList: ArrayList<Event>): Boolean {
         return eventList.size > 0
     }
+
+    /**
+     * Provides phone current time based on the timezone
+     * Uses in different methods to mock in unit tests.
+     *
+     * @since 1.0.0
+     */
+    fun getCurrentTime(): Long {
+        return Calendar.getInstance().timeInMillis
+
+    }
+
 }
