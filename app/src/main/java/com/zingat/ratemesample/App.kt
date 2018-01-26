@@ -1,6 +1,7 @@
 package com.zingat.ratemesample
 
 import android.app.Application
+import com.facebook.stetho.Stetho
 import com.zingat.rateme.Rateme
 
 /**
@@ -11,11 +12,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        Rateme.getInstance()
-                .setContext(applicationContext)
-                .addCondition("buton", 3)
-                .reminderDuration(0)
-
+        Stetho.initializeWithDefaults(this)
 
     }
 
