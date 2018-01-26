@@ -40,7 +40,7 @@ class CheckCondition {
         return false
     }
 
-    fun isReminderEnd(reminderValue: Long, reminderDuration: Int): Boolean {
+    fun isReminderEnd(reminderDuration: Int, reminderValue: Long): Boolean {
 
         val currentTime = Calendar.getInstance().timeInMillis
 
