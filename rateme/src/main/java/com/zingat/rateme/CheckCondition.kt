@@ -32,7 +32,7 @@ class CheckCondition {
             val currentConditionType = condition.getType()
             val currentConditionValue = condition.getCount()
 
-            if (currentEventMap.containsKey(currentConditionType) && currentEventMap[currentConditionType] == currentConditionValue) {
+            if (currentEventMap.containsKey(currentConditionType) && currentEventMap[currentConditionType]!! >= currentConditionValue) {
                 return true
             }
         }
