@@ -74,6 +74,14 @@ class EventsSql(context: Context) {
         db.close()
     }
 
+    fun deleteAll() {
+
+        val db = dbEvents.writableDatabase
+        db.delete(EventsDb.TABLE_NAME, null, null);
+        db.close();
+
+    }
+
 
     fun getAll(): ArrayList<Event> {
 

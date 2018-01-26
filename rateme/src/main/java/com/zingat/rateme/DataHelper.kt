@@ -36,4 +36,8 @@ class DataHelper(context: Context) {
         this.eventsSql.delete(eventName)
     }
 
+    fun deleteAll() {
+        this.eventsSql.deleteAll()
+    }
+
 }
