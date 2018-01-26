@@ -2,6 +2,7 @@ package com.zingat.rateme
 
 import android.content.Context
 import com.zingat.rateme.model.Condition
+import com.zingat.rateme.model.Event
 
 /**
  * Created by mustafaolkun on 24/01/2018.
@@ -10,7 +11,11 @@ class Rateme() {
 
     lateinit var mContext: Context
     lateinit var mConditionList: ArrayList<Condition>
+    lateinit var mDataHelper: DataHelper
+    lateinit var mCheckCondition: CheckCondition
+
     private var mDuration = 3
+
 
     companion object {
 
@@ -25,12 +30,20 @@ class Rateme() {
 
     fun setContext(context: Context): Rateme {
         this.mContext = context
+        init()
         return this
     }
 
     fun setConditionList(conditionList: ArrayList<Condition>): Rateme {
         this.mConditionList = conditionList
         return this
+    }
+
+    fun init() {
+
+        mDataHelper = DataHelper(this.mContext)
+        mCheckCondition = CheckCondition()
+
     }
 
     fun addCondition(type: String, count: Int): Rateme {
@@ -41,15 +54,30 @@ class Rateme() {
 
     fun show() {
 
+        val eventList: ArrayList<Event> = mDataHelper.getAllEvents()
+
+        val isConditionComplete = mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
+        if (isConditionComplete) {
+            val reminderValue = mDataHelper.getReminder()
+            val isReminderEnd = mCheckCondition.isReminderEnd(reminderValue, mDuration) // ToDo bunun adı mDuration olmasın çünkü duration farklı bir yerde daha kullanılıcak.
+
+            if (isReminderEnd) {
+
+            }
+
+
+        }
+
 
     }
 
     fun addEvent(eventName: String): Rateme {
-
+        this.mDataHelper.saveEvent(eventName)
         return this
     }
 
     fun remindLater(): Rateme {
+        this.mDataHelper.saveEvent("reminder")
         return this
     }
 
