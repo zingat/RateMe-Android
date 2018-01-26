@@ -1,6 +1,5 @@
 package com.zingat.rateme
 
-import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -8,6 +7,7 @@ import android.database.SQLException
 import com.zingat.rateme.model.Event
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 /**
  * Created by ismailgungor on 24.01.2018.
@@ -65,6 +65,13 @@ class EventsSql(context: Context) {
         db.close()
 
         return eventList
+    }
+
+    fun delete(eventName: String) {
+        val db = dbEvents.writableDatabase
+        val whereArgs = arrayOf<String>(eventName)
+        db.delete(EventsDb.TABLE_NAME, EventsDb.EVENT_NAME + " =?", whereArgs)
+        db.close()
     }
 
 
