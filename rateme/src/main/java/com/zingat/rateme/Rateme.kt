@@ -1,6 +1,8 @@
 package com.zingat.rateme
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
+import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.zingat.rateme.model.Condition
 import com.zingat.rateme.model.Event
@@ -11,11 +13,14 @@ import com.zingat.rateme.model.Event
 class Rateme() {
 
     lateinit var mContext: Context
-    lateinit var mConditionList: ArrayList<Condition>
+    var mConditionList: ArrayList<Condition> = ArrayList<Condition>()
     lateinit var mDataHelper: DataHelper
     lateinit var mCheckCondition: CheckCondition
 
     private var mDuration = 3
+    private var isWorking = true
+
+    private var mDialog: MaterialDialog? = null
 
 
     companion object {
@@ -40,7 +45,7 @@ class Rateme() {
         return this
     }
 
-    fun init() {
+    private fun init() {
 
         mDataHelper = DataHelper(this.mContext)
         mCheckCondition = CheckCondition()
@@ -53,6 +58,7 @@ class Rateme() {
         return this
     }
 
+    @Deprecated("deprecated")
     fun show() {
 
         val eventList: ArrayList<Event> = mDataHelper.getAllEvents()
@@ -74,12 +80,39 @@ class Rateme() {
 
     }
 
+    fun startShowProcess() {
+
+        val reminderValue = mDataHelper.getReminder()
+        val isReminderEnd = mCheckCondition.isReminderEnd(reminderValue, mDuration) // ToDo bunun adı mDuration olmasın çünkü duration farklı bir yerde daha kullanılıcak.
+
+        if (isReminderEnd) {
+
+            if (isWorking) {
+
+                val eventList: ArrayList<Event> = mDataHelper.getAllEvents()
+                val isConditionComplete = mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
+
+                if (isConditionComplete) {
+                    showDialog()
+                }
+
+            } else {
+
+                showDialog()
+
+            }
+
+
+        }
+
+    }
+
     fun addEvent(eventName: String): Rateme {
         this.mDataHelper.saveEvent(eventName)
         return this
     }
 
-    fun remindLater(): Rateme {
+    private fun remindLater(): Rateme {
         this.mDataHelper.saveEvent("reminder")
         return this
     }
@@ -96,15 +129,45 @@ class Rateme() {
 
     // Dialog Methods Starts
 
-    fun showDialog() {
+    fun createDialog() {
 
-        MaterialDialog.Builder(mContext)
+        this.mDialog = MaterialDialog.Builder(mContext)
                 .title(mContext.getString(R.string.title))
                 .content(mContext.getString(R.string.message))
-                .positiveText(mContext.getString(R.string.rate))
-                .negativeText(mContext.getString(R.string.remind_me_later))
-                .neutralText(mContext.getString(R.string.dont_ask_again))
-                .show()
+                .cancelable(false)
+                .build()
+
+        initDialogButtons()
+
+    }
+
+    fun createDialogWithCustomView() {
+
+        this.mDialog = MaterialDialog.Builder(mContext)
+                .customView(R.layout.layout_dialog, false)
+                .cancelable(false)
+                .build()
+
+        initDialogButtons()
+
+    }
+
+
+    private fun initDialogButtons() {
+
+        mDialog?.setActionButton(DialogAction.POSITIVE, mContext.getString(R.string.rate))
+        mDialog?.setActionButton(DialogAction.NEGATIVE, mContext.getString(R.string.remind_me_later))
+        mDialog?.setActionButton(DialogAction.NEUTRAL, mContext.getString(R.string.dont_ask_again))
+
+        mDialog?.getActionButton(DialogAction.POSITIVE)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_rate_color))
+        mDialog?.getActionButton(DialogAction.NEGATIVE)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_later_color))
+        mDialog?.getActionButton(DialogAction.NEUTRAL)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_never_color))
+
+    }
+
+    private fun showDialog() {
+
+        mDialog?.show()
 
     }
 
