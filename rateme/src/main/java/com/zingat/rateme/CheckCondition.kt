@@ -8,9 +8,18 @@ import kotlin.collections.ArrayList
 
 /**
  * Created by ismailgungor on 24.01.2018.
+ *
+ * @since 1.0.0
  */
 class CheckCondition {
 
+    /**
+     * Compares the conditions and datas
+     * Conditions are provided by developer in their activity by using [Rateme.addCondition]
+     * The data got from database by following user's behaviours with [Rateme.addEvent] method
+     *
+     * @since 1.0.0
+     */
     fun isConditionsComplete(conditionList: ArrayList<Condition>, eventList: ArrayList<Event>): Boolean {
 
         val currentEventMap = HashMap<String, Int>()
@@ -41,6 +50,16 @@ class CheckCondition {
         return false
     }
 
+    /**
+     * Uses to compare the current time and saved time to database
+     * that is saved when user click remind me button.
+     * Compares the datas by converting to day value.
+     *
+     * @see Rateme.remindLater
+     * @see Rateme.reminderDuration
+     *
+     * @since 1.0.0
+     */
     fun isReminderEnd(reminderDuration: Int, reminderValue: Long): Boolean {
 
         val currentTime = Calendar.getInstance().timeInMillis
