@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">RateMe</string>
+
+    <!-- Dialog Strings -->
+    <string name="remind_me_later">Remind Me Later</string>
+    <string name="dont_ask_again">Don\'t ask again</string>
+    <string name="rate">Rate us</string>
+    <string name="title">How was your experience with us ?</string>
+    <string name="message">Recommend us to others by rating us on Play Store</string>
+
 </resources>
