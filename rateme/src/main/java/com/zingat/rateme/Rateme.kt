@@ -6,6 +6,10 @@ import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.zingat.rateme.model.Condition
 import com.zingat.rateme.model.Event
+import android.content.pm.PackageManager
+import android.content.Intent
+import android.net.Uri
+
 
 /**
  * Created by mustafaolkun on 24/01/2018.
@@ -19,6 +23,7 @@ class Rateme() {
 
     private var mDuration = 3
     private var isWorking = true
+    private var packageName = ""
 
     private var mDialog: MaterialDialog? = null
 
@@ -49,6 +54,7 @@ class Rateme() {
 
         mDataHelper = DataHelper(this.mContext)
         mCheckCondition = CheckCondition()
+        setPackageName()
 
     }
 
@@ -66,7 +72,7 @@ class Rateme() {
         val isConditionComplete = mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
         if (isConditionComplete) {
             val reminderValue = mDataHelper.getReminder()
-            val isReminderEnd = mCheckCondition.isReminderEnd(reminderValue, mDuration) // ToDo bunun adı mDuration olmasın çünkü duration farklı bir yerde daha kullanılıcak.
+            val isReminderEnd = mCheckCondition.isReminderEnd(3, reminderValue) // ToDo bunun adı mDuration olmasın çünkü duration farklı bir yerde daha kullanılıcak.
 
             if (isReminderEnd) {
 
@@ -83,8 +89,7 @@ class Rateme() {
     fun startShowProcess() {
 
         val reminderValue = mDataHelper.getReminder()
-        val isReminderEnd = mCheckCondition.isReminderEnd(reminderValue, mDuration) // ToDo bunun adı mDuration olmasın çünkü duration farklı bir yerde daha kullanılıcak.
-
+        val isReminderEnd = mCheckCondition.isReminderEnd(3, reminderValue)
         if (isReminderEnd) {
 
             if (isWorking) {
@@ -127,6 +132,28 @@ class Rateme() {
         return this
     }
 
+    private fun setPackageName() {
+
+        try {
+            val packageInfo = this.mContext.packageManager.getPackageInfo(mContext.packageName, 0)
+            this.packageName = packageInfo.packageName
+
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+
+    }
+
+    private fun sendUserToGooglePlay(packageName: String) {
+        try {
+            this.mContext.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)))
+        } catch (anfe: android.content.ActivityNotFoundException) {
+            this.mContext.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)))
+        }
+
+    }
+
+
     // Dialog Methods Starts
 
     fun createDialog() {
@@ -162,6 +189,15 @@ class Rateme() {
         mDialog?.getActionButton(DialogAction.POSITIVE)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_rate_color))
         mDialog?.getActionButton(DialogAction.NEGATIVE)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_later_color))
         mDialog?.getActionButton(DialogAction.NEUTRAL)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_never_color))
+
+        mDialog?.getActionButton(DialogAction.POSITIVE)?.setOnClickListener {
+            sendUserToGooglePlay(this.packageName)
+        }
+
+        mDialog?.getActionButton(DialogAction.NEGATIVE)?.setOnClickListener {
+            mDataHelper.deleteEvent("reminder")
+            remindLater()
+        }
 
     }
 
