@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="btn_rate_color">#000</color>
+    <color name="btn_later_color">#000</color>
+    <color name="btn_never_color">#000</color>
+
 </resources>
