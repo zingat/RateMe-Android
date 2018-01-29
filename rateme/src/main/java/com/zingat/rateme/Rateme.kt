@@ -163,8 +163,6 @@ class Rateme() {
                 .cancelable(false)
                 .build()
 
-        initDialogButtons()
-
     }
 
 //    fun createDialogWithCustomView() {
@@ -174,12 +172,12 @@ class Rateme() {
 //                .cancelable(false)
 //                .build()
 //
-//        initDialogButtons()
+//        initNativeDialogButtons()
 //
 //    }
 
 
-    private fun initDialogButtons() {
+    private fun initNativeDialogButtons() {
 
         mDialog?.setActionButton(DialogAction.POSITIVE, mContext.getString(R.string.rate))
         mDialog?.setActionButton(DialogAction.NEGATIVE, mContext.getString(R.string.remind_me_later))
