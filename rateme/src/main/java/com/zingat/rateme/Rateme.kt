@@ -22,7 +22,6 @@ class Rateme() {
     lateinit var mCheckCondition: CheckCondition
 
     private var mDuration = 3
-    private var isWorking = true
     private var packageName = ""
 
     private var mDialog: MaterialDialog? = null
@@ -48,6 +47,11 @@ class Rateme() {
     fun setConditionList(conditionList: ArrayList<Condition>): Rateme {
         this.mConditionList = conditionList
         return this
+    }
+
+    fun isRatemeEnable(): Boolean {
+        val disableList = mDataHelper.findByEventName("disable")
+        return !mCheckCondition.isThereDisableValue(disableList)
     }
 
     private fun init() {
@@ -80,42 +84,30 @@ class Rateme() {
                 showDialog()
 
             }
-
-
         }
-
-
     }
 
     fun startShowProcess() {
 
-        val disableList = mDataHelper.findByEventName("disable")
-        val isThereDiableValue = mCheckCondition.isThereDisableValue(disableList)
+        val reminderValue = mDataHelper.getReminder()
+        val isReminderEnd = mCheckCondition.isReminderEnd(3, reminderValue)
+        if (!isReminderEnd) {
 
-        if (!isThereDiableValue) {
+            val completedList = mDataHelper.findByEventName("conditionCompleted")
+            val isConditonCompleted = mCheckCondition.isConditionCompleted(completedList)
+            if (!isConditonCompleted) {
 
-            val reminderValue = mDataHelper.getReminder()
-            val isReminderEnd = mCheckCondition.isReminderEnd(3, reminderValue)
-            if (!isReminderEnd) {
+                val eventList: ArrayList<Event> = mDataHelper.getAllEvents()
+                val isConditionComplete = mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
 
-                if (isWorking) {
-
-                    val eventList: ArrayList<Event> = mDataHelper.getAllEvents()
-                    val isConditionComplete = mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
-
-                    if (isConditionComplete) {
-                        showDialog()
-                    }
-
-                } else {
-
+                if (isConditionComplete) {
                     showDialog()
-
                 }
+
+            } else {
+                showDialog()
             }
         }
-
-
     }
 
     fun addEvent(eventName: String): Rateme {
@@ -202,6 +194,7 @@ class Rateme() {
 
         mDialog?.getActionButton(DialogAction.NEGATIVE)?.setOnClickListener {
             mDataHelper.deleteEvent("reminder")
+            mDataHelper.saveEvent("conditionCompleted")
             remindLater()
             mDialog?.dismiss()
         }
