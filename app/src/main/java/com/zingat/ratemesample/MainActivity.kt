@@ -2,12 +2,14 @@ package com.zingat.ratemesample
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Telephony
 import android.view.View
 import android.widget.Toast
 import com.zingat.rateme.Rateme
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var mRateme: Rateme
 
     var count = 0
 
@@ -15,13 +17,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        this.mRateme = Rateme.getInstance()
+
+        mRateme.setContext(this)
+                .addCondition("buton", 3)
+                .reminderDuration(0)
+                .createDialog()
+
+
     }
 
     fun dokunBana(view: View) {
 
         count += 1
 
-        Rateme.getInstance().addEvent("buton")
+        if (mRateme.isRatemeEnable()) {
+
+            mRateme.addEvent("buton")
+            mRateme.startShowProcess()
+
+        }
+
 
         Toast.makeText(this, "$count kere dokunuldu", Toast.LENGTH_SHORT).show()
 
