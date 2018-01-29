@@ -4,6 +4,7 @@ import com.zingat.rateme.model.Condition
 import com.zingat.rateme.model.Event
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 /**
  * Created by ismailgungor on 24.01.2018.
@@ -55,5 +56,9 @@ class CheckCondition {
 
         return eventList.size > 0
 
+    }
+
+    fun isConditionCompleted(eventList: ArrayList<Event>): Boolean {
+        return eventList.size > 0
     }
 }
