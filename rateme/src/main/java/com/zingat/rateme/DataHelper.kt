@@ -6,6 +6,7 @@ import com.zingat.rateme.model.Event
 /**
  * Created by ismailgungor on 24.01.2018.
  */
+@com.zingat.rateme.annotations.RatemeOpen
 class DataHelper(context: Context) {
 
     private val eventsSql: EventsSql = EventsSql(context)

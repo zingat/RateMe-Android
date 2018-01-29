@@ -15,6 +15,7 @@ import com.afollestad.materialdialogs.StackingBehavior
 /**
  * Created by mustafaolkun on 24/01/2018.
  */
+@com.zingat.rateme.annotations.RatemeOpen
 class Rateme {
 
     lateinit var mContext: Context
@@ -135,7 +136,6 @@ class Rateme {
 
 
     // Dialog Methods Starts
-
     fun create(): Rateme {
 
         this.mDialog = MaterialDialog.Builder(mContext)
