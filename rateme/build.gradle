@@ -1,10 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: "kotlin-allopen"
 
 android {
     compileSdkVersion 26
-
-
 
     defaultConfig {
         minSdkVersion 15
@@ -23,6 +22,9 @@ android {
         }
     }
 
+    allOpen {
+        annotation("com.zingat.rateme.annotations.RatemeOpen")
+    }
 }
 
 dependencies {
