@@ -52,13 +52,7 @@ class CheckCondition {
 
     }
 
-    fun isThereDisableValue(eventList: ArrayList<Event>): Boolean {
-
-        return eventList.size > 0
-
-    }
-
-    fun isConditionCompleted(eventList: ArrayList<Event>): Boolean {
+    fun isThereConditionCompletedValue(eventList: ArrayList<Event>): Boolean {
         return eventList.size > 0
     }
 }
