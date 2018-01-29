@@ -51,7 +51,7 @@ class Rateme() {
 
     fun isRatemeEnable(): Boolean {
         val disableList = mDataHelper.findByEventName("disable")
-        return !mCheckCondition.isThereDisableValue(disableList)
+        return disableList.size == 0
     }
 
     private fun init() {
@@ -94,8 +94,9 @@ class Rateme() {
         if (!isReminderEnd) {
 
             val completedList = mDataHelper.findByEventName("conditionCompleted")
-            val isConditonCompleted = mCheckCondition.isConditionCompleted(completedList)
-            if (!isConditonCompleted) {
+            val isConditonCompletedValue = mCheckCondition.isThereConditionCompletedValue(completedList)
+
+            if (!isConditonCompletedValue) {
 
                 val eventList: ArrayList<Event> = mDataHelper.getAllEvents()
                 val isConditionComplete = mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
@@ -166,16 +167,16 @@ class Rateme() {
 
     }
 
-    fun createDialogWithCustomView() {
-
-        this.mDialog = MaterialDialog.Builder(mContext)
-                .customView(R.layout.layout_dialog, false)
-                .cancelable(false)
-                .build()
-
-        initDialogButtons()
-
-    }
+//    fun createDialogWithCustomView() {
+//
+//        this.mDialog = MaterialDialog.Builder(mContext)
+//                .customView(R.layout.layout_dialog, false)
+//                .cancelable(false)
+//                .build()
+//
+//        initDialogButtons()
+//
+//    }
 
 
     private fun initDialogButtons() {
