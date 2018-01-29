@@ -10,7 +10,6 @@ class DataHelper(context: Context) {
 
     private val eventsSql: EventsSql = EventsSql(context)
 
-
     fun saveEvent(event: String) {
         this.eventsSql.save(event)
     }

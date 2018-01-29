@@ -14,7 +14,7 @@ import android.net.Uri
 /**
  * Created by mustafaolkun on 24/01/2018.
  */
-class Rateme() {
+class Rateme {
 
     lateinit var mContext: Context
     var mConditionList: ArrayList<Condition> = ArrayList<Condition>()
@@ -25,7 +25,6 @@ class Rateme() {
     private var packageName = ""
 
     private var mDialog: MaterialDialog? = null
-
 
     companion object {
 
@@ -49,6 +48,9 @@ class Rateme() {
         return this
     }
 
+    fun init() {
+        this.mDataHelper = DataHelper(this.mContext)
+        this.mCheckCondition = CheckCondition()
     fun isRatemeEnable(): Boolean {
         val disableList = mDataHelper.findByEventName("disable")
         return disableList.size == 0
@@ -65,17 +67,19 @@ class Rateme() {
 
     fun addCondition(type: String, count: Int): Rateme {
         val newCondition = Condition(count, type)
-        mConditionList.add(newCondition)
+        this.mConditionList.add(newCondition)
         return this
     }
 
     @Deprecated("deprecated")
     fun show() {
 
-        val eventList: ArrayList<Event> = mDataHelper.getAllEvents()
+        val eventList: ArrayList<Event> = this.mDataHelper.getAllEvents()
 
-        val isConditionComplete = mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
+        val isConditionComplete = this.mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
         if (isConditionComplete) {
+            val reminderValue = this.mDataHelper.getReminder()
+            val isReminderEnd = this.mCheckCondition.isReminderEnd(reminderValue, mDuration) // ToDo bunun adı mDuration olmasın çünkü duration farklı bir yerde daha kullanılıcak.
             val reminderValue = mDataHelper.getReminder()
             val isReminderEnd = mCheckCondition.isReminderEnd(3, reminderValue) // ToDo bunun adı mDuration olmasın çünkü duration farklı bir yerde daha kullanılıcak.
 
@@ -116,7 +120,7 @@ class Rateme() {
         return this
     }
 
-    private fun remindLater(): Rateme {
+     fun remindLater(): Rateme {
         this.mDataHelper.saveEvent("reminder")
         return this
     }
