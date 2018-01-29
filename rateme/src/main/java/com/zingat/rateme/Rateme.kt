@@ -48,9 +48,6 @@ class Rateme {
         return this
     }
 
-    fun init() {
-        this.mDataHelper = DataHelper(this.mContext)
-        this.mCheckCondition = CheckCondition()
     fun isRatemeEnable(): Boolean {
         val disableList = mDataHelper.findByEventName("disable")
         return disableList.size == 0
@@ -58,8 +55,8 @@ class Rateme {
 
     private fun init() {
 
-        mDataHelper = DataHelper(this.mContext)
-        mCheckCondition = CheckCondition()
+        this.mDataHelper = DataHelper(this.mContext)
+        this.mCheckCondition = CheckCondition()
         remindLater()
         setPackageName()
 
@@ -69,26 +66,6 @@ class Rateme {
         val newCondition = Condition(count, type)
         this.mConditionList.add(newCondition)
         return this
-    }
-
-    @Deprecated("deprecated")
-    fun show() {
-
-        val eventList: ArrayList<Event> = this.mDataHelper.getAllEvents()
-
-        val isConditionComplete = this.mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
-        if (isConditionComplete) {
-            val reminderValue = this.mDataHelper.getReminder()
-            val isReminderEnd = this.mCheckCondition.isReminderEnd(reminderValue, mDuration) // ToDo bunun adı mDuration olmasın çünkü duration farklı bir yerde daha kullanılıcak.
-            val reminderValue = mDataHelper.getReminder()
-            val isReminderEnd = mCheckCondition.isReminderEnd(3, reminderValue) // ToDo bunun adı mDuration olmasın çünkü duration farklı bir yerde daha kullanılıcak.
-
-            if (isReminderEnd) {
-
-                showDialog()
-
-            }
-        }
     }
 
     fun startShowProcess() {
@@ -120,7 +97,7 @@ class Rateme {
         return this
     }
 
-     fun remindLater(): Rateme {
+    fun remindLater(): Rateme {
         this.mDataHelper.saveEvent("reminder")
         return this
     }
@@ -171,16 +148,16 @@ class Rateme {
 
     }
 
-//    fun createDialogWithCustomView() {
-//
-//        this.mDialog = MaterialDialog.Builder(mContext)
-//                .customView(R.layout.layout_dialog, false)
-//                .cancelable(false)
-//                .build()
-//
-//        initDialogButtons()
-//
-//    }
+    fun createDialogWithCustomView(layout_dialog: Int) {
+
+        this.mDialog = MaterialDialog.Builder(mContext)
+                .customView(layout_dialog, false)
+                .cancelable(false)
+                .build()
+
+        initDialogButtons()
+
+    }
 
 
     private fun initDialogButtons() {
