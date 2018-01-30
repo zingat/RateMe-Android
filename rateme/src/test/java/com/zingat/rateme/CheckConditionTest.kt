@@ -71,7 +71,7 @@ class CheckConditionTest {
     @Test
     fun isReminderEnd_ShouldReturnTrue() {
 
-        val isReminderEnd: Boolean = this.checkCondition.isReminderEnd(TEST_REMINDER_TIME, 3)
+        val isReminderEnd: Boolean = this.checkCondition.isReminderEnd(3, TEST_REMINDER_TIME)
         Assertions.assertThat(isReminderEnd).isTrue()
     }
 }

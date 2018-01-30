@@ -15,6 +15,7 @@ import com.afollestad.materialdialogs.StackingBehavior
 /**
  * Created by mustafaolkun on 24/01/2018.
  */
+@com.zingat.rateme.annotations.RatemeOpen
 class Rateme {
 
     lateinit var mContext: Context
@@ -71,7 +72,7 @@ class Rateme {
         val isReminderEnd = mCheckCondition.isReminderEnd(this.mDuration, reminderValue)
         if (isReminderEnd) {
 
-            val completedList = mDataHelper.findByEventName("conditionCompleted")
+            val completedList: ArrayList<Event> = mDataHelper.findByEventName("conditionCompleted")
             val isConditonCompletedValue = mCheckCondition.isThereConditionCompletedValue(completedList)
 
             if (!isConditonCompletedValue) {
@@ -80,11 +81,11 @@ class Rateme {
                 val isConditionComplete = mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
 
                 if (isConditionComplete) {
-                    showDialog()
+                    this.showDialog()
                 }
 
             } else {
-                showDialog()
+                this.showDialog()
             }
         }
     }
@@ -135,7 +136,6 @@ class Rateme {
 
 
     // Dialog Methods Starts
-
     fun create(): Rateme {
 
         this.mDialog = MaterialDialog.Builder(mContext)
@@ -222,7 +222,7 @@ class Rateme {
 
     }
 
-    private fun showDialog() {
+    fun showDialog() {
         mDialog?.show()
     }
 

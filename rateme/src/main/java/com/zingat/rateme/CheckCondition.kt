@@ -11,7 +11,8 @@ import kotlin.collections.ArrayList
  *
  * @since 1.0.0
  */
-open class CheckCondition {
+@com.zingat.rateme.annotations.RatemeOpen
+class CheckCondition {
 
     /**
      * Compares the conditions and datas
