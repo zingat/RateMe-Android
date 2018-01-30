@@ -59,7 +59,6 @@ class Rateme() {
 
         mDataHelper = DataHelper(this.mContext)
         mCheckCondition = CheckCondition()
-        remindLater()
         setPackageName()
 
     }
