@@ -69,7 +69,7 @@ class Rateme() {
     private fun startShowProcess() {
 
         val reminderValue = mDataHelper.getReminder()
-        val isReminderEnd = mCheckCondition.isReminderEnd(3, reminderValue)
+        val isReminderEnd = mCheckCondition.isReminderEnd(this.mDuration, reminderValue)
         if (isReminderEnd) {
 
             val completedList = mDataHelper.findByEventName("conditionCompleted")
