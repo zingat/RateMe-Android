@@ -4,8 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="btn_rate_color">#000</color>
-    <color name="btn_later_color">#000</color>
-    <color name="btn_never_color">#000</color>
+    <color name="btn_rate_color">#FFFFFF</color>
+    <color name="btn_later_color">#009ef8</color>
+    <color name="btn_never_color">#009ef8</color>
 
 </resources>
