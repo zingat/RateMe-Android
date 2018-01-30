@@ -33,7 +33,6 @@ class Rateme() {
         private val mRateme: Rateme by lazy { Rateme() }
 
         fun getInstance(): Rateme {
-
             return mRateme
         }
 
@@ -51,11 +50,9 @@ class Rateme() {
     }
 
     private fun init() {
-
         mDataHelper = DataHelper(this.mContext)
         mCheckCondition = CheckCondition()
         setPackageName()
-
     }
 
     fun addCondition(type: String, count: Int): Rateme {
@@ -99,7 +96,6 @@ class Rateme() {
             this.mDataHelper.saveEvent(eventName)
             startShowProcess()
         }
-
         return this
     }
 
@@ -109,7 +105,6 @@ class Rateme() {
     }
 
     fun delay(delayTime: Long): Rateme {
-
         return this
     }
 
@@ -177,13 +172,11 @@ class Rateme() {
 
         setDialogButtonsTextAndTextColor(mDialog)
 
-
         mDialog?.getActionButton(DialogAction.POSITIVE)?.setStackedGravity(GravityEnum.CENTER)
         mDialog?.getActionButton(DialogAction.POSITIVE)?.setStackedSelector(ContextCompat.getDrawable(mContext, rateButtonBackground))
 
         mDialog?.getActionButton(DialogAction.NEGATIVE)?.setStackedGravity(GravityEnum.CENTER)
         mDialog?.getActionButton(DialogAction.NEGATIVE)?.setStackedSelector(ContextCompat.getDrawable(mContext, laterButtonBackground))
-
 
         mDialog?.getActionButton(DialogAction.NEUTRAL)?.setStackedGravity(GravityEnum.CENTER)
         mDialog?.getActionButton(DialogAction.NEUTRAL)?.setStackedSelector(ContextCompat.getDrawable(mContext, neverButtonBackground))
@@ -208,7 +201,6 @@ class Rateme() {
 
     private fun setDialogButtonsClickEvents(dialog: MaterialDialog?) {
 
-
         dialog?.getActionButton(DialogAction.POSITIVE)?.setOnClickListener {
             sendUserToGooglePlay(this.packageName)
         }
@@ -232,9 +224,7 @@ class Rateme() {
     }
 
     private fun showDialog() {
-
         mDialog?.show()
-
     }
 
 }
