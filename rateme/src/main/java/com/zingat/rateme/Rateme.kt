@@ -9,7 +9,8 @@ import com.zingat.rateme.model.Event
 import android.content.pm.PackageManager
 import android.content.Intent
 import android.net.Uri
-
+import com.afollestad.materialdialogs.GravityEnum
+import com.afollestad.materialdialogs.StackingBehavior
 
 /**
  * Created by mustafaolkun on 24/01/2018.
@@ -31,7 +32,6 @@ class Rateme {
         private val mRateme: Rateme by lazy { Rateme() }
 
         fun getInstance(): Rateme {
-
             return mRateme
         }
 
@@ -48,18 +48,10 @@ class Rateme {
         return this
     }
 
-    fun isRatemeEnable(): Boolean {
-        val disableList = mDataHelper.findByEventName("disable")
-        return disableList.size == 0
-    }
-
     private fun init() {
-
-        this.mDataHelper = DataHelper(this.mContext)
-        this.mCheckCondition = CheckCondition()
-        remindLater()
+        mDataHelper = DataHelper(this.mContext)
+        mCheckCondition = CheckCondition()
         setPackageName()
-
     }
 
     fun addCondition(type: String, count: Int): Rateme {
@@ -68,11 +60,16 @@ class Rateme {
         return this
     }
 
-    fun startShowProcess() {
+    private fun isRatemeEnable(): Boolean {
+        val disableList = mDataHelper.findByEventName("disable")
+        return disableList.size == 0
+    }
+
+    private fun startShowProcess() {
 
         val reminderValue = mDataHelper.getReminder()
-        val isReminderEnd = mCheckCondition.isReminderEnd(3, reminderValue)
-        if (!isReminderEnd) {
+        val isReminderEnd = mCheckCondition.isReminderEnd(this.mDuration, reminderValue)
+        if (isReminderEnd) {
 
             val completedList = mDataHelper.findByEventName("conditionCompleted")
             val isConditonCompletedValue = mCheckCondition.isThereConditionCompletedValue(completedList)
@@ -93,7 +90,11 @@ class Rateme {
     }
 
     fun addEvent(eventName: String): Rateme {
-        this.mDataHelper.saveEvent(eventName)
+
+        if (isRatemeEnable()) {
+            this.mDataHelper.saveEvent(eventName)
+            startShowProcess()
+        }
         return this
     }
 
@@ -103,7 +104,6 @@ class Rateme {
     }
 
     fun delay(delayTime: Long): Rateme {
-
         return this
     }
 
@@ -136,52 +136,83 @@ class Rateme {
 
     // Dialog Methods Starts
 
-    fun createDialog() {
+    fun create(): Rateme {
 
         this.mDialog = MaterialDialog.Builder(mContext)
-                .title(mContext.getString(R.string.title))
-                .content(mContext.getString(R.string.message))
+                .title(mContext.getString(R.string.rateme_dialog_title))
+                .content(mContext.getString(R.string.rateme_dialog_title))
                 .cancelable(false)
                 .build()
 
-        initDialogButtons()
-
+        return this
     }
 
-    fun createDialogWithCustomView(layout_dialog: Int) {
+    fun create(customView: Int): Rateme {
 
         this.mDialog = MaterialDialog.Builder(mContext)
-                .customView(layout_dialog, false)
+                .customView(customView, false)
                 .cancelable(false)
+                .stackingBehavior(StackingBehavior.ALWAYS)
                 .build()
 
-        initDialogButtons()
-
+        return this
     }
 
 
-    private fun initDialogButtons() {
+    fun initNativeDialogButtons() {
 
-        mDialog?.setActionButton(DialogAction.POSITIVE, mContext.getString(R.string.rate))
-        mDialog?.setActionButton(DialogAction.NEGATIVE, mContext.getString(R.string.remind_me_later))
-        mDialog?.setActionButton(DialogAction.NEUTRAL, mContext.getString(R.string.dont_ask_again))
+        setDialogButtonsTextAndTextColor(mDialog)
 
-        mDialog?.getActionButton(DialogAction.POSITIVE)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_rate_color))
-        mDialog?.getActionButton(DialogAction.NEGATIVE)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_later_color))
-        mDialog?.getActionButton(DialogAction.NEUTRAL)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_never_color))
+        setDialogButtonsClickEvents(mDialog)
 
-        mDialog?.getActionButton(DialogAction.POSITIVE)?.setOnClickListener {
+    }
+
+    fun initCustomDialogButtons(rateButtonBackground: Int, laterButtonBackground: Int, neverButtonBackground: Int) {
+
+        setDialogButtonsTextAndTextColor(mDialog)
+
+        mDialog?.getActionButton(DialogAction.POSITIVE)?.setStackedGravity(GravityEnum.CENTER)
+        mDialog?.getActionButton(DialogAction.POSITIVE)?.setStackedSelector(ContextCompat.getDrawable(mContext, rateButtonBackground))
+
+        mDialog?.getActionButton(DialogAction.NEGATIVE)?.setStackedGravity(GravityEnum.CENTER)
+        mDialog?.getActionButton(DialogAction.NEGATIVE)?.setStackedSelector(ContextCompat.getDrawable(mContext, laterButtonBackground))
+
+        mDialog?.getActionButton(DialogAction.NEUTRAL)?.setStackedGravity(GravityEnum.CENTER)
+        mDialog?.getActionButton(DialogAction.NEUTRAL)?.setStackedSelector(ContextCompat.getDrawable(mContext, neverButtonBackground))
+
+
+        setDialogButtonsClickEvents(mDialog)
+
+
+    }
+
+    private fun setDialogButtonsTextAndTextColor(dialog: MaterialDialog?) {
+
+        dialog?.setActionButton(DialogAction.POSITIVE, mContext.getString(R.string.rateme_btn_rate_text))
+        dialog?.setActionButton(DialogAction.NEGATIVE, mContext.getString(R.string.rateme_btn_later_text))
+        dialog?.setActionButton(DialogAction.NEUTRAL, mContext.getString(R.string.rateme_btn_never_text))
+
+        dialog?.getActionButton(DialogAction.POSITIVE)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_rate_text_color))
+        dialog?.getActionButton(DialogAction.NEGATIVE)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_later_text_color))
+        dialog?.getActionButton(DialogAction.NEUTRAL)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_never_text_color))
+
+    }
+
+    private fun setDialogButtonsClickEvents(dialog: MaterialDialog?) {
+
+        dialog?.getActionButton(DialogAction.POSITIVE)?.setOnClickListener {
             sendUserToGooglePlay(this.packageName)
         }
 
-        mDialog?.getActionButton(DialogAction.NEGATIVE)?.setOnClickListener {
+        dialog?.getActionButton(DialogAction.NEGATIVE)?.setOnClickListener {
             mDataHelper.deleteEvent("reminder")
+            mDataHelper.deleteEvent("conditionCompleted")
             mDataHelper.saveEvent("conditionCompleted")
             remindLater()
             mDialog?.dismiss()
         }
 
-        mDialog?.getActionButton(DialogAction.NEUTRAL)?.setOnClickListener {
+        dialog?.getActionButton(DialogAction.NEUTRAL)?.setOnClickListener {
 
             mDataHelper.deleteAll()
             mDataHelper.saveEvent("disable")
@@ -192,9 +223,7 @@ class Rateme {
     }
 
     private fun showDialog() {
-
         mDialog?.show()
-
     }
 
 }
