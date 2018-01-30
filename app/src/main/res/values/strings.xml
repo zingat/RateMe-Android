@@ -2,9 +2,9 @@
     <string name="app_name">RateMe</string>
 
     <!-- Dialog Strings -->
-    <string name="remind_me_later">hoop</string>
-    <string name="dont_ask_again">Don\'t ask again</string>
-    <string name="rate">Rate us</string>
+    <string name="remind_me_later">Daha Sonra</string>
+    <string name="dont_ask_again">İlgİlenmİyorum</string>
+    <string name="rate">Oy Ver</string>
     <string name="title">How was your experience with us ?</string>
     <string name="message">Recommend us to others by rating us on Play Store</string>
 
