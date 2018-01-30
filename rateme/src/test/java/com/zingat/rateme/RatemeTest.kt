@@ -1,9 +1,12 @@
 package com.zingat.rateme
 
+import com.zingat.rateme.model.Condition
 import com.zingat.rateme.model.Event
 import org.assertj.core.api.Assertions
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.anyList
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
@@ -22,6 +25,9 @@ class RatemeTest {
 
     @Mock
     lateinit var mockEventList: ArrayList<Event>
+
+    @Mock
+    lateinit var mockConditionList: ArrayList<Condition>
 
     @Mock
     lateinit var mockCheckCondition: CheckCondition
@@ -60,7 +66,7 @@ class RatemeTest {
     }
 
     @Test
-    fun startShowProcess_ShouldNotTrigger_IfIsReminderEndReturnTRUE() {
+    fun startShowProcess_ShouldNotTrigger_IfIsReminderEndReturnFalse() {
 
         // When
         Mockito.doReturn(true).`when`(this.mockCheckCondition).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
@@ -73,14 +79,24 @@ class RatemeTest {
     }
 
     @Test
-    fun startShowProcess_ShouldOnlyShowDialogTrigger_IfIsReminderFALSEAndIsConditonCompletedValueReturnTRUE() {
+    fun startShowProcess_ShouldTrigger_IfIsReminderEndReturnFalse() {
 
         // When
         Mockito.doReturn(false).`when`(this.mockCheckCondition).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
+        Mockito.doReturn(this.mockEventList).`when`(this.mockDataHelper).findByEventName("conditionCompleted")
+        Mockito.doReturn(true).`when`(this.mockCheckCondition).isThereConditionCompletedValue( this.mockEventList )
 
+        // Then
         this.rateMe.startShowProcess()
 
-        Mockito.verify(this.mockDataHelper, Mockito.times(1)).getReminder()
-        Mockito.verify(this.mockCheckCondition, Mockito.times(1)).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
+        // Result
+        Mockito.verify(this.rateMe, Mockito.times(1)).showDialog()
+        Mockito.verify(this.mockDataHelper, Mockito.never()).getAllEvents()
+        Mockito.verify(this.mockCheckCondition, Mockito.never()).isConditionsComplete(
+                anyList<Condition>() as ArrayList<Condition>,
+                anyList<Event>() as ArrayList<Event>
+        )
+
     }
+
 }

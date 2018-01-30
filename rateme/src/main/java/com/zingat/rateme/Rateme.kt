@@ -72,7 +72,7 @@ class Rateme {
         val isReminderEnd = mCheckCondition.isReminderEnd(this.mDuration, reminderValue)
         if (isReminderEnd) {
 
-            val completedList = mDataHelper.findByEventName("conditionCompleted")
+            val completedList: ArrayList<Event> = mDataHelper.findByEventName("conditionCompleted")
             val isConditonCompletedValue = mCheckCondition.isThereConditionCompletedValue(completedList)
 
             if (!isConditonCompletedValue) {
