@@ -81,11 +81,11 @@ class Rateme {
                 val isConditionComplete = mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
 
                 if (isConditionComplete) {
-                    showDialog()
+                    this.showDialog()
                 }
 
             } else {
-                showDialog()
+                this.showDialog()
             }
         }
     }
@@ -222,7 +222,7 @@ class Rateme {
 
     }
 
-    private fun showDialog() {
+    fun showDialog() {
         mDialog?.show()
     }
 

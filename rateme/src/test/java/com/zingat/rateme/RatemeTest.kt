@@ -23,12 +23,15 @@ class RatemeTest {
     @Mock
     lateinit var mockEventList: ArrayList<Event>
 
+    @Mock
+    lateinit var mockCheckCondition: CheckCondition
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
 
         this.rateMe.mDataHelper = this.mockDataHelper
+        this.rateMe.mCheckCondition = this.mockCheckCondition
     }
 
     @Test
@@ -56,4 +59,28 @@ class RatemeTest {
 
     }
 
+    @Test
+    fun startShowProcess_ShouldNotTrigger_IfIsReminderEndReturnTRUE() {
+
+        // When
+        Mockito.doReturn(true).`when`(this.mockCheckCondition).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
+
+        this.rateMe.startShowProcess()
+
+        Mockito.verify(this.mockDataHelper, Mockito.times(1)).getReminder()
+        Mockito.verify(this.mockCheckCondition, Mockito.times(1)).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
+        Mockito.verify(this.rateMe, Mockito.never()).showDialog()
+    }
+
+    @Test
+    fun startShowProcess_ShouldOnlyShowDialogTrigger_IfIsReminderFALSEAndIsConditonCompletedValueReturnTRUE() {
+
+        // When
+        Mockito.doReturn(false).`when`(this.mockCheckCondition).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
+
+        this.rateMe.startShowProcess()
+
+        Mockito.verify(this.mockDataHelper, Mockito.times(1)).getReminder()
+        Mockito.verify(this.mockCheckCondition, Mockito.times(1)).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
+    }
 }
