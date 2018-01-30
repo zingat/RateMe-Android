@@ -92,7 +92,7 @@ class Rateme() {
 
         val reminderValue = mDataHelper.getReminder()
         val isReminderEnd = mCheckCondition.isReminderEnd(3, reminderValue)
-        if (!isReminderEnd) {
+        if (isReminderEnd) {
 
             val completedList = mDataHelper.findByEventName("conditionCompleted")
             val isConditonCompletedValue = mCheckCondition.isThereConditionCompletedValue(completedList)
@@ -159,8 +159,8 @@ class Rateme() {
     fun createDialog(): Rateme {
 
         this.mDialog = MaterialDialog.Builder(mContext)
-                .title(mContext.getString(R.string.title))
-                .content(mContext.getString(R.string.message))
+                .title(mContext.getString(R.string.rateme_dialog_title))
+                .content(mContext.getString(R.string.rateme_dialog_title))
                 .cancelable(false)
                 .build()
 
@@ -210,13 +210,13 @@ class Rateme() {
 
     private fun setDialogButtonsTextAndTextColor(dialog: MaterialDialog?) {
 
-        dialog?.setActionButton(DialogAction.POSITIVE, mContext.getString(R.string.rate))
-        dialog?.setActionButton(DialogAction.NEGATIVE, mContext.getString(R.string.remind_me_later))
-        dialog?.setActionButton(DialogAction.NEUTRAL, mContext.getString(R.string.dont_ask_again))
+        dialog?.setActionButton(DialogAction.POSITIVE, mContext.getString(R.string.rateme_btn_rate_text))
+        dialog?.setActionButton(DialogAction.NEGATIVE, mContext.getString(R.string.rateme_btn_later_text))
+        dialog?.setActionButton(DialogAction.NEUTRAL, mContext.getString(R.string.rateme_btn_never_text))
 
-        dialog?.getActionButton(DialogAction.POSITIVE)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_rate_color))
-        dialog?.getActionButton(DialogAction.NEGATIVE)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_later_color))
-        dialog?.getActionButton(DialogAction.NEUTRAL)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_never_color))
+        dialog?.getActionButton(DialogAction.POSITIVE)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_rate_text_color))
+        dialog?.getActionButton(DialogAction.NEGATIVE)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_later_text_color))
+        dialog?.getActionButton(DialogAction.NEUTRAL)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_never_text_color))
 
     }
 
