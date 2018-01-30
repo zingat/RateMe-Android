@@ -228,6 +228,7 @@ class Rateme() {
 
         dialog?.getActionButton(DialogAction.NEGATIVE)?.setOnClickListener {
             mDataHelper.deleteEvent("reminder")
+            mDataHelper.deleteEvent("conditionCompleted")
             mDataHelper.saveEvent("conditionCompleted")
             remindLater()
             mDialog?.dismiss()
