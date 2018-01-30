@@ -50,11 +50,6 @@ class Rateme() {
         return this
     }
 
-    fun isRatemeEnable(): Boolean {
-        val disableList = mDataHelper.findByEventName("disable")
-        return disableList.size == 0
-    }
-
     private fun init() {
 
         mDataHelper = DataHelper(this.mContext)
@@ -69,25 +64,12 @@ class Rateme() {
         return this
     }
 
-    @Deprecated("deprecated")
-    fun show() {
-
-        val eventList: ArrayList<Event> = mDataHelper.getAllEvents()
-
-        val isConditionComplete = mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
-        if (isConditionComplete) {
-            val reminderValue = mDataHelper.getReminder()
-            val isReminderEnd = mCheckCondition.isReminderEnd(3, reminderValue) // ToDo bunun adı mDuration olmasın çünkü duration farklı bir yerde daha kullanılıcak.
-
-            if (isReminderEnd) {
-
-                showDialog()
-
-            }
-        }
+    private fun isRatemeEnable(): Boolean {
+        val disableList = mDataHelper.findByEventName("disable")
+        return disableList.size == 0
     }
 
-    fun startShowProcess() {
+    private fun startShowProcess() {
 
         val reminderValue = mDataHelper.getReminder()
         val isReminderEnd = mCheckCondition.isReminderEnd(3, reminderValue)
@@ -112,7 +94,12 @@ class Rateme() {
     }
 
     fun addEvent(eventName: String): Rateme {
-        this.mDataHelper.saveEvent(eventName)
+
+        if (isRatemeEnable()) {
+            this.mDataHelper.saveEvent(eventName)
+            startShowProcess()
+        }
+
         return this
     }
 
@@ -155,7 +142,7 @@ class Rateme() {
 
     // Dialog Methods Starts
 
-    fun createDialog(): Rateme {
+    fun create(): Rateme {
 
         this.mDialog = MaterialDialog.Builder(mContext)
                 .title(mContext.getString(R.string.rateme_dialog_title))
@@ -166,7 +153,7 @@ class Rateme() {
         return this
     }
 
-    fun createDialogWithCustomView(customView: Int): Rateme {
+    fun create(customView: Int): Rateme {
 
         this.mDialog = MaterialDialog.Builder(mContext)
                 .customView(customView, false)
