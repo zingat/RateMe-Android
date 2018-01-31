@@ -61,12 +61,12 @@ class Rateme {
         return this
     }
 
-    private fun isRatemeEnable(): Boolean {
+    fun isRatemeEnable(): Boolean {
         val disableList = mDataHelper.findByEventName("disable")
         return disableList.size == 0
     }
 
-    private fun startShowProcess() {
+    fun startShowProcess() {
 
         val reminderValue = mDataHelper.getReminder()
         val isReminderEnd = mCheckCondition.isReminderEnd(this.mDuration, reminderValue)

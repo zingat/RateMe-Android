@@ -27,9 +27,6 @@ class RatemeTest {
     lateinit var mockEventList: ArrayList<Event>
 
     @Mock
-    lateinit var mockConditionList: ArrayList<Condition>
-
-    @Mock
     lateinit var mockCheckCondition: CheckCondition
 
     @Before
@@ -69,20 +66,24 @@ class RatemeTest {
     fun startShowProcess_ShouldNotTrigger_IfIsReminderEndReturnFalse() {
 
         // When
-        Mockito.doReturn(true).`when`(this.mockCheckCondition).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
+        Mockito.doReturn(false).`when`(this.mockCheckCondition).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
 
         this.rateMe.startShowProcess()
 
         Mockito.verify(this.mockDataHelper, Mockito.times(1)).getReminder()
         Mockito.verify(this.mockCheckCondition, Mockito.times(1)).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
         Mockito.verify(this.rateMe, Mockito.never()).showDialog()
+        Mockito.verify(this.mockDataHelper, Mockito.never()).findByEventName( "conditionCompleted" )
+        Mockito.verify(this.mockCheckCondition, Mockito.never()).isThereConditionCompletedValue(
+                anyList<Event>() as ArrayList<Event>
+        )
     }
 
     @Test
     fun startShowProcess_ShouldTrigger_IfIsReminderEndReturnFalse() {
 
         // When
-        Mockito.doReturn(false).`when`(this.mockCheckCondition).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
+        Mockito.doReturn(true).`when`(this.mockCheckCondition).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
         Mockito.doReturn(this.mockEventList).`when`(this.mockDataHelper).findByEventName("conditionCompleted")
         Mockito.doReturn(true).`when`(this.mockCheckCondition).isThereConditionCompletedValue( this.mockEventList )
 
