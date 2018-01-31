@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         mRateme.setContext(this)
                 .addCondition("button", 3)
-                .reminderDuration(0)
+                .reminderDuration(3)
                 .create(R.layout.layout_dialog)
                 .initCustomDialogButtons(R.drawable.rate_button_background,
                         R.drawable.later_button_background,
