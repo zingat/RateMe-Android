@@ -8,7 +8,6 @@ import com.zingat.rateme.Rateme
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var mRateme: Rateme
 
     var count = 0
 
@@ -16,16 +15,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        this.mRateme = Rateme.getInstance()
 
-        mRateme.setContext(this)
+        Rateme.getInstance().setContext(this)
                 .addCondition("button", 3)
                 .reminderDuration(3)
-                .create(R.layout.layout_dialog)
                 .initCustomDialogButtons(R.drawable.rate_button_background,
                         R.drawable.later_button_background,
                         R.drawable.never_button_background)
-
+                .create(R.layout.layout_dialog)
 
     }
 
@@ -33,7 +30,8 @@ class MainActivity : AppCompatActivity() {
 
         count += 1
 
-        mRateme.addEvent("button")
+        Rateme.getInstance()
+                .addEvent("button")
 
         Toast.makeText(this, "$count kere dokunuldu", Toast.LENGTH_SHORT).show()
 

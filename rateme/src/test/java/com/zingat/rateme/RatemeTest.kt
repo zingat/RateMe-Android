@@ -5,7 +5,6 @@ import com.zingat.rateme.model.Event
 import org.assertj.core.api.Assertions
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyList
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -68,7 +67,7 @@ class RatemeTest {
         // When
         Mockito.doReturn(false).`when`(this.mockCheckCondition).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
 
-        this.rateMe.startShowProcess()
+        this.rateMe.process()
 
         Mockito.verify(this.mockDataHelper, Mockito.times(1)).getReminder()
         Mockito.verify(this.mockCheckCondition, Mockito.times(1)).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
@@ -88,7 +87,7 @@ class RatemeTest {
         Mockito.doReturn(true).`when`(this.mockCheckCondition).isThereConditionCompletedValue( this.mockEventList )
 
         // Then
-        this.rateMe.startShowProcess()
+        this.rateMe.process()
 
         // Result
         Mockito.verify(this.rateMe, Mockito.times(1)).showDialog()

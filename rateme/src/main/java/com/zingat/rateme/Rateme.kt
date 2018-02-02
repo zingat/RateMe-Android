@@ -18,8 +18,8 @@ import com.afollestad.materialdialogs.StackingBehavior
 @com.zingat.rateme.annotations.RatemeOpen
 class Rateme {
 
-    lateinit var mContext: Context
     var mConditionList: ArrayList<Condition> = ArrayList<Condition>()
+    lateinit var mContext: Context
     lateinit var mDataHelper: DataHelper
     lateinit var mCheckCondition: CheckCondition
     private var mDuration = 3
@@ -48,8 +48,8 @@ class Rateme {
     }
 
     private fun init() {
-        mDataHelper = DataHelper(this.mContext)
-        mCheckCondition = CheckCondition()
+        this.mDataHelper = DataHelper(this.mContext)
+        this.mCheckCondition = CheckCondition(this.mDataHelper)
         setPackageName()
     }
 
@@ -59,12 +59,7 @@ class Rateme {
         return this
     }
 
-    fun isRatemeEnable(): Boolean {
-        val disableList = mDataHelper.findByEventName("disable")
-        return disableList.size == 0
-    }
-
-    fun startShowProcess() {
+    fun process() {
 
         val reminderValue = mDataHelper.getReminder()
         val isReminderEnd = mCheckCondition.isReminderEnd(this.mDuration, reminderValue)
@@ -90,9 +85,9 @@ class Rateme {
 
     fun addEvent(eventName: String): Rateme {
 
-        if (isRatemeEnable()) {
+        if (this.mCheckCondition.isRatemeEnable()) {
             this.mDataHelper.saveEvent(eventName)
-            startShowProcess()
+            this.process()
         }
         return this
     }
@@ -133,7 +128,6 @@ class Rateme {
     }
 
 
-    // Dialog Methods Starts
     fun create(): Rateme {
 
         this.mDialog = MaterialDialog.Builder(mContext)
@@ -145,7 +139,7 @@ class Rateme {
         return this
     }
 
-    fun create(customView: Int): Rateme {
+    fun create(customView: Int) {
 
         this.mDialog = MaterialDialog.Builder(mContext)
                 .customView(customView, false)
@@ -153,7 +147,6 @@ class Rateme {
                 .stackingBehavior(StackingBehavior.ALWAYS)
                 .build()
 
-        return this
     }
 
 
@@ -163,7 +156,7 @@ class Rateme {
 
     }
 
-    fun initCustomDialogButtons(rateButtonBackground: Int, laterButtonBackground: Int, neverButtonBackground: Int) {
+    fun initCustomDialogButtons(rateButtonBackground: Int, laterButtonBackground: Int, neverButtonBackground: Int): Rateme {
 
         setDialogButtonsTextAndTextColor(mDialog)
 
@@ -179,7 +172,7 @@ class Rateme {
 
         setDialogButtonsClickEvents(mDialog)
 
-
+        return this
     }
 
     private fun setDialogButtonsTextAndTextColor(dialog: MaterialDialog?) {
@@ -208,10 +201,11 @@ class Rateme {
             mDialog?.dismiss()
         }
 
+        // TODO seperate the disable protocol.
         dialog?.getActionButton(DialogAction.NEUTRAL)?.setOnClickListener {
 
             mDataHelper.deleteAll()
-            mDataHelper.saveEvent("disable")
+            mDataHelper.saveEvent(Constants.DISABLE)
             mDialog?.dismiss()
 
         }

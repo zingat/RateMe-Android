@@ -12,7 +12,9 @@ import kotlin.collections.ArrayList
  * @since 1.0.0
  */
 @com.zingat.rateme.annotations.RatemeOpen
-class CheckCondition {
+class CheckCondition(dataHelper: DataHelper) {
+
+    var mDataHelper: DataHelper = dataHelper
 
     /**
      * Compares the conditions and datas
@@ -98,6 +100,16 @@ class CheckCondition {
     fun getCurrentTime(): Long {
         return Calendar.getInstance().timeInMillis
 
+    }
+
+    /**
+     * @return true if user haven't applied disable protocol.
+     *
+     * @since 1.0.0
+     */
+    fun isRatemeEnable(): Boolean {
+        val disableList = mDataHelper.findByEventName(Constants.DISABLE)
+        return disableList.size == 0
     }
 
 }

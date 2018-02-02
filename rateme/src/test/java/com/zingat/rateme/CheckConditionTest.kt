@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.Spy
@@ -22,6 +23,9 @@ class CheckConditionTest {
     private val TEST_REMINDER_TIME = 1516395600000 // 20/01/2018
     private val TEST_CURRENT_TIME = 1516654800000 // 23/01/2018
 
+    @Mock
+    private lateinit var mockDataHelper: DataHelper
+
     private lateinit var checkCondition: CheckCondition
 
     // Fakes
@@ -30,7 +34,9 @@ class CheckConditionTest {
 
     @Before
     fun setUp() {
-        this.checkCondition = CheckCondition()
+        MockitoAnnotations.initMocks(this)
+
+        this.checkCondition = CheckCondition( this.mockDataHelper )
         this.fakeConditionList.add(Condition(3, TEST_CONDITION_CONS))
 
         this.fakeEventList.add(Event(1, TEST_CONDITION_CONS, 0))
@@ -73,5 +79,15 @@ class CheckConditionTest {
 
         val isReminderEnd: Boolean = this.checkCondition.isReminderEnd(3, TEST_REMINDER_TIME)
         Assertions.assertThat(isReminderEnd).isTrue()
+    }
+
+    @Test
+    fun isRatemeEnable_ShouldReturnTrue_IfListSizeEqualToZero() {
+
+        this.fakeEventList.clear()
+        Mockito.doReturn( this.fakeEventList ).`when`(this.mockDataHelper).findByEventName(Constants.DISABLE)
+        val ratemeEnable: Boolean = this.checkCondition.isRatemeEnable()
+        Assertions.assertThat(ratemeEnable).isTrue()
+
     }
 }
