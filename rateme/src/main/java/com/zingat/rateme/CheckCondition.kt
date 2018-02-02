@@ -19,7 +19,11 @@ class CheckCondition {
      * Conditions are provided by developer in their activity by using [Rateme.addCondition]
      * The data got from database by following user's behaviours with [Rateme.addEvent] method
      *
+     * @param conditionList
+     * @param eventList
+     *
      * @since 1.0.0
+     * @author ismailgungor
      */
     fun isConditionsComplete(conditionList: ArrayList<Condition>, eventList: ArrayList<Event>): Boolean {
 
@@ -60,6 +64,7 @@ class CheckCondition {
      * @see Rateme.reminderDuration
      *
      * @since 1.0.0
+     * @author ismailgungor
      */
     fun isReminderEnd(reminderDuration: Int, reminderValue: Long): Boolean {
 
@@ -72,6 +77,13 @@ class CheckCondition {
 
     }
 
+    /**
+     * return true given arraylist size bigger than 0
+     * @param eventList
+     *
+     * @since 1.0.0
+     * @author ismailgungor
+     */
     fun isThereConditionCompletedValue(eventList: ArrayList<Event>): Boolean {
         return eventList.size > 0
     }
@@ -81,6 +93,7 @@ class CheckCondition {
      * Uses in different methods to mock in unit tests.
      *
      * @since 1.0.0
+     * @author ismailgungor
      */
     fun getCurrentTime(): Long {
         return Calendar.getInstance().timeInMillis

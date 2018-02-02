@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper
 
 /**
  * Created by ismailgungor on 24.01.2018.
+ *
+ * Uses to create standart DB operations with KT.
  */
 class EventsDb(context: Context, name: String, factory: SQLiteDatabase.CursorFactory?, version: Int) : SQLiteOpenHelper(context, name, factory, version) {
 
@@ -18,7 +20,6 @@ class EventsDb(context: Context, name: String, factory: SQLiteDatabase.CursorFac
         val EVENT_TIME = "event_time"
 
     }
-
 
     private val CREATE_TABLE = ("CREATE TABLE " + TABLE_NAME + "("
             + EVENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"

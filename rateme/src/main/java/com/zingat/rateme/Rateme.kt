@@ -22,10 +22,8 @@ class Rateme {
     var mConditionList: ArrayList<Condition> = ArrayList<Condition>()
     lateinit var mDataHelper: DataHelper
     lateinit var mCheckCondition: CheckCondition
-
     private var mDuration = 3
     private var packageName = ""
-
     private var mDialog: MaterialDialog? = null
 
     companion object {
@@ -160,9 +158,7 @@ class Rateme {
 
 
     fun initNativeDialogButtons() {
-
         setDialogButtonsTextAndTextColor(mDialog)
-
         setDialogButtonsClickEvents(mDialog)
 
     }

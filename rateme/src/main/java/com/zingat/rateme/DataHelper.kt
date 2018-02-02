@@ -5,6 +5,8 @@ import com.zingat.rateme.model.Event
 
 /**
  * Created by ismailgungor on 24.01.2018.
+ *
+ * Uses as controller between [DataHelper] and [Rateme]
  */
 @com.zingat.rateme.annotations.RatemeOpen
 class DataHelper(context: Context) {
