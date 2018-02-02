@@ -27,7 +27,7 @@ class DataHelper(context: Context) {
 
     fun getReminder(): Long {
 
-        val reminderList = eventsSql.findByName("reminder")
+        val reminderList = eventsSql.findByName(Constants.REMINDER)
         if (reminderList.size > 0)
             return reminderList.get(0).getTime()
 

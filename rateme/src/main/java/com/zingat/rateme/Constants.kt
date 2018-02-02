@@ -7,6 +7,8 @@ class Constants {
 
     companion object {
         val DISABLE : String = "disable"
+        val CONDITION_COMPLETED = "conditionCompleted"
+        val REMINDER = "reminder"
     }
 
 }

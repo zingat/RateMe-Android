@@ -65,7 +65,7 @@ class Rateme {
         val isReminderEnd = mCheckCondition.isReminderEnd(this.mDuration, reminderValue)
         if (isReminderEnd) {
 
-            val completedList: ArrayList<Event> = mDataHelper.findByEventName("conditionCompleted")
+            val completedList: ArrayList<Event> = mDataHelper.findByEventName(Constants.CONDITION_COMPLETED)
             val isConditonCompletedValue = mCheckCondition.isThereConditionCompletedValue(completedList)
 
             if (!isConditonCompletedValue) {
@@ -93,7 +93,7 @@ class Rateme {
     }
 
     fun remindLater(): Rateme {
-        this.mDataHelper.saveEvent("reminder")
+        this.mDataHelper.saveEvent(Constants.REMINDER)
         return this
     }
 
@@ -194,9 +194,9 @@ class Rateme {
         }
 
         dialog?.getActionButton(DialogAction.NEGATIVE)?.setOnClickListener {
-            mDataHelper.deleteEvent("reminder")
-            mDataHelper.deleteEvent("conditionCompleted")
-            mDataHelper.saveEvent("conditionCompleted")
+            mDataHelper.deleteEvent(Constants.REMINDER)
+            mDataHelper.deleteEvent(Constants.CONDITION_COMPLETED)
+            mDataHelper.saveEvent(Constants.CONDITION_COMPLETED)
             remindLater()
             mDialog?.dismiss()
         }
