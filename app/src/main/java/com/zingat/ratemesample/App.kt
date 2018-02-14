@@ -17,6 +17,7 @@ class App : Application() {
         Rateme.getInstance(this)
                 .addCondition("button", 3)
                 .reminderDuration(3)
+                .custom(R.layout.layout_dialog)
     }
 
 }

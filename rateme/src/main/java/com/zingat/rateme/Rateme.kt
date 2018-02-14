@@ -18,9 +18,9 @@ import com.afollestad.materialdialogs.StackingBehavior
 @com.zingat.rateme.annotations.RatemeOpen
 class Rateme {
 
-    internal var context : Context
+    internal var context: Context
 
-    constructor( context: Context ) {
+    constructor(context: Context) {
         this.context = context
         init()
     }
@@ -29,6 +29,8 @@ class Rateme {
     private var mDuration = 3
     private var packageName = ""
     private var mDialog: MaterialDialog? = null
+
+    private var customView: Int = 0
     private var rateButtonBackground: Int = 0
     private var laterButtonBackground: Int = 0
     private var neverButtonBackground: Int = 0
@@ -68,6 +70,10 @@ class Rateme {
             this.process()
         }
         return this
+    }
+
+    fun custom(customView: Int) {
+        this.customView = customView;
     }
     // Builder End methods
 
@@ -122,27 +128,23 @@ class Rateme {
 
     }
 
-
     private fun create() {
 
-        this.mDialog = MaterialDialog.Builder(this.context)
-                .title(context.getString(R.string.rateme_dialog_title))
-                .content(context.getString(R.string.rateme_dialog_title))
+        val builder: MaterialDialog.Builder = MaterialDialog.Builder(this.context)
                 .cancelable(false)
-                .build()
+
+        if (this.customView == 0) {
+            this.mDialog = builder
+                    .title(context.getString(R.string.rateme_dialog_title))
+                    .content(context.getString(R.string.rateme_dialog_title))
+                    .build()
+        } else {
+            this.mDialog = builder.customView(customView, false)
+                    .stackingBehavior(StackingBehavior.ALWAYS).build()
+
+        }
 
         this.initNativeDialogButtons()
-
-    }
-
-    private fun create(customView: Int) {
-
-        this.mDialog = MaterialDialog.Builder(this.context)
-                .customView(customView, false)
-                .cancelable(false)
-                .stackingBehavior(StackingBehavior.ALWAYS)
-                .build()
-
     }
 
     private fun initNativeDialogButtons() {
