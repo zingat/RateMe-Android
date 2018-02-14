@@ -25,6 +25,7 @@ class Rateme {
         init()
     }
 
+
     private var mConditionList: ArrayList<Condition> = ArrayList<Condition>()
     private var mDuration = 3
     private var packageName = ""
@@ -34,6 +35,7 @@ class Rateme {
     private var rateButtonBackground: Int = 0
     private var laterButtonBackground: Int = 0
     private var neverButtonBackground: Int = 0
+    private var customButtonFlag: Boolean = false
 
     internal lateinit var mDataHelper: DataHelper
     internal lateinit var mCheckCondition: CheckCondition
@@ -72,8 +74,20 @@ class Rateme {
         return this
     }
 
-    fun custom(customView: Int) {
-        this.customView = customView;
+    fun custom(customView: Int): Rateme {
+        this.customView = customView
+
+        return this
+    }
+
+    fun customButton(rateButtonBackground: Int, laterButtonBackground: Int, neverButtonBackground: Int): Rateme {
+
+        this.customButtonFlag = true
+        this.rateButtonBackground = rateButtonBackground
+        this.laterButtonBackground = laterButtonBackground
+        this.neverButtonBackground = neverButtonBackground
+
+        return this
     }
     // Builder End methods
 
@@ -144,30 +158,26 @@ class Rateme {
 
         }
 
-        this.initNativeDialogButtons()
+        this.initDialogButtons()
     }
 
-    private fun initNativeDialogButtons() {
-        setDialogButtonsTextAndTextColor()
-        setDialogButtonsClickEvents()
+    private fun initDialogButtons() {
+        this.setDialogButtonsTextAndTextColor()
+        this.setDialogButtonsClickEvents()
+        this.setCustomBackgrounds()
     }
 
-    private fun initCustomDialogButtons(rateButtonBackground: Int, laterButtonBackground: Int, neverButtonBackground: Int): Rateme {
+    private fun setCustomBackgrounds() {
+        if (this.customButtonFlag) {
+            this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setStackedGravity(GravityEnum.CENTER)
+            this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setStackedSelector(ContextCompat.getDrawable(context, this.rateButtonBackground))
 
-        setDialogButtonsTextAndTextColor()
+            this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setStackedGravity(GravityEnum.CENTER)
+            this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setStackedSelector(ContextCompat.getDrawable(context, this.laterButtonBackground))
 
-        this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setStackedGravity(GravityEnum.CENTER)
-        this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setStackedSelector(ContextCompat.getDrawable(context, rateButtonBackground))
-
-        this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setStackedGravity(GravityEnum.CENTER)
-        this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setStackedSelector(ContextCompat.getDrawable(context, laterButtonBackground))
-
-        this.mDialog?.getActionButton(DialogAction.NEUTRAL)?.setStackedGravity(GravityEnum.CENTER)
-        this.mDialog?.getActionButton(DialogAction.NEUTRAL)?.setStackedSelector(ContextCompat.getDrawable(context, neverButtonBackground))
-
-        setDialogButtonsClickEvents()
-
-        return this
+            this.mDialog?.getActionButton(DialogAction.NEUTRAL)?.setStackedGravity(GravityEnum.CENTER)
+            this.mDialog?.getActionButton(DialogAction.NEUTRAL)?.setStackedSelector(ContextCompat.getDrawable(context, this.neverButtonBackground))
+        }
     }
 
     private fun setDialogButtonsTextAndTextColor() {
@@ -210,5 +220,4 @@ class Rateme {
     internal fun showDialog() {
         this.mDialog?.show()
     }
-
 }

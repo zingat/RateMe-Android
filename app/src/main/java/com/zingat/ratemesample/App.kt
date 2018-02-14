@@ -18,6 +18,11 @@ class App : Application() {
                 .addCondition("button", 3)
                 .reminderDuration(3)
                 .custom(R.layout.layout_dialog)
+                .customButton(
+                        R.drawable.rate_button_background,
+                        R.drawable.later_button_background,
+                        R.drawable.never_button_background
+                )
     }
 
 }
