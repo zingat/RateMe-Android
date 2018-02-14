@@ -108,7 +108,7 @@ class CheckCondition(dataHelper: DataHelper) {
      * @since 1.0.0
      */
     fun isRatemeEnable(): Boolean {
-        val disableList = mDataHelper.findByEventName(Constants.DISABLE)
+        val disableList = this.mDataHelper.findByEventName(Constants.DISABLE)
         return disableList.size == 0
     }
 

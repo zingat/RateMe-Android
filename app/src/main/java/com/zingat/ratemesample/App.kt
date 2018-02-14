@@ -14,6 +14,9 @@ class App : Application() {
 
         Stetho.initializeWithDefaults(this)
 
+        Rateme.getInstance(this)
+                .addCondition("button", 3)
+                .reminderDuration(3)
     }
 
 }
