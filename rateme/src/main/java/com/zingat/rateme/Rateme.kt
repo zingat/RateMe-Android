@@ -80,12 +80,11 @@ class Rateme {
         return this
     }
 
-    fun customButton(rateButtonBackground: Int, laterButtonBackground: Int, neverButtonBackground: Int): Rateme {
-
+    fun customButton(): Rateme {
         this.customButtonFlag = true
-        this.rateButtonBackground = rateButtonBackground
-        this.laterButtonBackground = laterButtonBackground
-        this.neverButtonBackground = neverButtonBackground
+        this.rateButtonBackground = R.drawable.rm_rate_button_background
+        this.laterButtonBackground = R.drawable.rm_later_button_background
+        this.neverButtonBackground = R.drawable.rm_never_button_background
 
         return this
     }
@@ -186,10 +185,9 @@ class Rateme {
         this.mDialog?.setActionButton(DialogAction.NEGATIVE, context.getString(R.string.rateme_btn_later_text))
         this.mDialog?.setActionButton(DialogAction.NEUTRAL, context.getString(R.string.rateme_btn_never_text))
 
-        this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setTextColor(ContextCompat.getColor(context, R.color.btn_rate_text_color))
-        this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setTextColor(ContextCompat.getColor(context, R.color.btn_later_text_color))
-        this.mDialog?.getActionButton(DialogAction.NEUTRAL)?.setTextColor(ContextCompat.getColor(context, R.color.btn_never_text_color))
-
+        this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setTextColor(ContextCompat.getColor(context, R.color.rm_BtnRateTextColor))
+        this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setTextColor(ContextCompat.getColor(context, R.color.rm_BtnLaterTextColor))
+        this.mDialog?.getActionButton(DialogAction.NEUTRAL)?.setTextColor(ContextCompat.getColor(context, R.color.rm_BtnNeverTextColor))
     }
 
     private fun setDialogButtonsClickEvents() {

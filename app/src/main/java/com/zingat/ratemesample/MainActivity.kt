@@ -20,10 +20,8 @@ class MainActivity : AppCompatActivity() {
     fun dokunBana(view: View) {
 
         count += 1
-
         Rateme.getInstance(this)
                 .addEvent("button")
-
         Toast.makeText(this, "$count kere dokunuldu", Toast.LENGTH_SHORT).show()
 
     }

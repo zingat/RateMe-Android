@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="rm_radius">8dp</dimen>
+    <dimen name="rm_item_lr">20dp</dimen>
+    <dimen name="rm_item_tb">3dp</dimen>
+</resources>

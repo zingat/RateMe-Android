@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="btn_rate_text_color">#02a8fe</color>
-    <color name="btn_later_text_color">#ff6175</color>
-    <color name="btn_never_text_color">#4bca5e</color>
-
+    <color name="rm_BtnRateTextColor">#02a8fe</color>
+    <color name="rm_BtnLaterTextColor">#ff6175</color>
+    <color name="rm_BtnNeverTextColor">#4bca5e</color>
 </resources>
