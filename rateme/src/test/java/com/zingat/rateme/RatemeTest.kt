@@ -5,7 +5,6 @@ import com.zingat.rateme.model.Event
 import org.assertj.core.api.Assertions
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyList
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -27,9 +26,6 @@ class RatemeTest {
     lateinit var mockEventList: ArrayList<Event>
 
     @Mock
-    lateinit var mockConditionList: ArrayList<Condition>
-
-    @Mock
     lateinit var mockCheckCondition: CheckCondition
 
     @Before
@@ -41,53 +37,32 @@ class RatemeTest {
     }
 
     @Test
-    fun isRatemeEnable_ShouldReturnTrue_IfListSizeEqualZero() {
-
-        // When
-        Mockito.doReturn(this.mockEventList).`when`(this.mockDataHelper).findByEventName("disable")
-
-        // Then
-        val result: Boolean = rateMe.isRatemeEnable()
-        Assertions.assertThat(result).isTrue()
-
-    }
-
-    @Test
-    fun isRatemeEnable_ShouldReturnFalse_IfListSizeBiggerThanZero() {
-
-        // When
-        Mockito.doReturn(2).`when`(this.mockEventList).size
-        Mockito.doReturn(this.mockEventList).`when`(this.mockDataHelper).findByEventName("disable")
-
-        // Then
-        val result: Boolean = rateMe.isRatemeEnable()
-        Assertions.assertThat(result).isFalse()
-
-    }
-
-    @Test
     fun startShowProcess_ShouldNotTrigger_IfIsReminderEndReturnFalse() {
 
         // When
-        Mockito.doReturn(true).`when`(this.mockCheckCondition).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
+        Mockito.doReturn(false).`when`(this.mockCheckCondition).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
 
-        this.rateMe.startShowProcess()
+        this.rateMe.process()
 
         Mockito.verify(this.mockDataHelper, Mockito.times(1)).getReminder()
         Mockito.verify(this.mockCheckCondition, Mockito.times(1)).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
         Mockito.verify(this.rateMe, Mockito.never()).showDialog()
+        Mockito.verify(this.mockDataHelper, Mockito.never()).findByEventName( Constants.CONDITION_COMPLETED )
+        Mockito.verify(this.mockCheckCondition, Mockito.never()).isThereConditionCompletedValue(
+                anyList<Event>() as ArrayList<Event>
+        )
     }
 
     @Test
     fun startShowProcess_ShouldTrigger_IfIsReminderEndReturnFalse() {
 
         // When
-        Mockito.doReturn(false).`when`(this.mockCheckCondition).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
-        Mockito.doReturn(this.mockEventList).`when`(this.mockDataHelper).findByEventName("conditionCompleted")
+        Mockito.doReturn(true).`when`(this.mockCheckCondition).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
+        Mockito.doReturn(this.mockEventList).`when`(this.mockDataHelper).findByEventName(Constants.CONDITION_COMPLETED)
         Mockito.doReturn(true).`when`(this.mockCheckCondition).isThereConditionCompletedValue( this.mockEventList )
 
         // Then
-        this.rateMe.startShowProcess()
+        this.rateMe.process()
 
         // Result
         Mockito.verify(this.rateMe, Mockito.times(1)).showDialog()

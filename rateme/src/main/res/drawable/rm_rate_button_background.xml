@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="@dimen/rm_item_tb"
+        android:top="@dimen/rm_item_tb"
+        android:left="@dimen/rm_item_lr"
+        android:right="@dimen/rm_item_lr"
+        >
+        <shape
+            android:shape="rectangle">
+            <solid android:color="?colorAccent"/>
+            <corners
+                android:topLeftRadius="@dimen/rm_radius"
+                android:topRightRadius="@dimen/rm_radius"
+                android:bottomLeftRadius="@dimen/rm_radius"
+                android:bottomRightRadius="@dimen/rm_radius"/>
+        </shape>
+    </item>
+</layer-list>

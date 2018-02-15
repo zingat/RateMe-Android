@@ -2,10 +2,10 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#009ef8</color>
 
-    <color name="btn_rate_text_color">#FFFFFF</color>
-    <color name="btn_later_text_color">#009ef8</color>
-    <color name="btn_never_text_color">#009ef8</color>
-
+    <!--For Rateme-->
+    <color name="rm_BtnRateTextColor">#fff</color>
+    <color name="rm_BtnLaterTextColor">@color/colorAccent</color>
+    <color name="rm_BtnNeverTextColor">@color/colorAccent</color>
 </resources>

@@ -18,41 +18,34 @@ import com.afollestad.materialdialogs.StackingBehavior
 @com.zingat.rateme.annotations.RatemeOpen
 class Rateme {
 
-    lateinit var mContext: Context
-    var mConditionList: ArrayList<Condition> = ArrayList<Condition>()
-    lateinit var mDataHelper: DataHelper
-    lateinit var mCheckCondition: CheckCondition
+    internal var context: Context
 
+    constructor(context: Context) {
+        this.context = context
+        init()
+    }
+
+
+    private var mConditionList: ArrayList<Condition> = ArrayList<Condition>()
     private var mDuration = 3
     private var packageName = ""
-
     private var mDialog: MaterialDialog? = null
 
-    companion object {
+    private var customView: Int = 0
+    private var rateButtonBackground: Int = 0
+    private var laterButtonBackground: Int = 0
+    private var neverButtonBackground: Int = 0
+    private var customButtonFlag: Boolean = false
 
-        private val mRateme: Rateme by lazy { Rateme() }
+    internal lateinit var mDataHelper: DataHelper
+    internal lateinit var mCheckCondition: CheckCondition
 
-        fun getInstance(): Rateme {
-            return mRateme
-        }
+    companion object : SingletonHolder<Rateme, Context>(::Rateme)
 
-    }
-
-    fun setContext(context: Context): Rateme {
-        this.mContext = context
-        init()
-        return this
-    }
-
+    // Builder Start methods
     fun setConditionList(conditionList: ArrayList<Condition>): Rateme {
         this.mConditionList = conditionList
         return this
-    }
-
-    private fun init() {
-        mDataHelper = DataHelper(this.mContext)
-        mCheckCondition = CheckCondition()
-        setPackageName()
     }
 
     fun addCondition(type: String, count: Int): Rateme {
@@ -61,23 +54,60 @@ class Rateme {
         return this
     }
 
-    private fun isRatemeEnable(): Boolean {
-        val disableList = mDataHelper.findByEventName("disable")
-        return disableList.size == 0
+    fun remindLater(): Rateme {
+        this.mDataHelper.saveEvent(Constants.REMINDER)
+        return this
     }
 
-    private fun startShowProcess() {
+    fun reminderDuration(duration: Int): Rateme {
+        this.mDuration = duration
+        return this
+    }
 
-        val reminderValue = mDataHelper.getReminder()
+    fun addEvent(eventName: String): Rateme {
+
+        if (this.mCheckCondition.isRatemeEnable()) {
+            this.mDataHelper.saveEvent(eventName)
+            this.create()
+            this.process()
+        }
+        return this
+    }
+
+    fun custom(customView: Int): Rateme {
+        this.customView = customView
+
+        return this
+    }
+
+    fun customButton(): Rateme {
+        this.customButtonFlag = true
+        this.rateButtonBackground = R.drawable.rm_rate_button_background
+        this.laterButtonBackground = R.drawable.rm_later_button_background
+        this.neverButtonBackground = R.drawable.rm_never_button_background
+
+        return this
+    }
+    // Builder End methods
+
+    private fun init() {
+        this.mDataHelper = DataHelper(this.context)
+        this.mCheckCondition = CheckCondition(this.mDataHelper)
+        setPackageName()
+    }
+
+    internal fun process() {
+
+        val reminderValue = this.mDataHelper.getReminder()
         val isReminderEnd = mCheckCondition.isReminderEnd(this.mDuration, reminderValue)
         if (isReminderEnd) {
 
-            val completedList: ArrayList<Event> = mDataHelper.findByEventName("conditionCompleted")
+            val completedList: ArrayList<Event> = this.mDataHelper.findByEventName(Constants.CONDITION_COMPLETED)
             val isConditonCompletedValue = mCheckCondition.isThereConditionCompletedValue(completedList)
 
             if (!isConditonCompletedValue) {
 
-                val eventList: ArrayList<Event> = mDataHelper.getAllEvents()
+                val eventList: ArrayList<Event> = this.mDataHelper.getAllEvents()
                 val isConditionComplete = mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
 
                 if (isConditionComplete) {
@@ -90,33 +120,10 @@ class Rateme {
         }
     }
 
-    fun addEvent(eventName: String): Rateme {
-
-        if (isRatemeEnable()) {
-            this.mDataHelper.saveEvent(eventName)
-            startShowProcess()
-        }
-        return this
-    }
-
-    fun remindLater(): Rateme {
-        this.mDataHelper.saveEvent("reminder")
-        return this
-    }
-
-    fun delay(delayTime: Long): Rateme {
-        return this
-    }
-
-    fun reminderDuration(duration: Int): Rateme {
-        this.mDuration = duration
-        return this
-    }
-
     private fun setPackageName() {
 
         try {
-            val packageInfo = this.mContext.packageManager.getPackageInfo(mContext.packageName, 0)
+            val packageInfo = this.context.packageManager.getPackageInfo(context.packageName, 0)
             this.packageName = packageInfo.packageName
 
         } catch (e: PackageManager.NameNotFoundException) {
@@ -127,103 +134,88 @@ class Rateme {
 
     private fun sendUserToGooglePlay(packageName: String) {
         try {
-            this.mContext.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)))
+            this.context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)))
         } catch (anfe: android.content.ActivityNotFoundException) {
-            this.mContext.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)))
+            this.context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)))
         }
 
     }
 
+    private fun create() {
 
-    // Dialog Methods Starts
-    fun create(): Rateme {
-
-        this.mDialog = MaterialDialog.Builder(mContext)
-                .title(mContext.getString(R.string.rateme_dialog_title))
-                .content(mContext.getString(R.string.rateme_dialog_title))
+        val builder: MaterialDialog.Builder = MaterialDialog.Builder(this.context)
                 .cancelable(false)
-                .build()
 
-        return this
+        if (this.customView == 0) {
+            this.mDialog = builder
+                    .title(context.getString(R.string.rateme_dialog_title))
+                    .content(context.getString(R.string.rateme_dialog_title))
+                    .build()
+        } else {
+            this.mDialog = builder.customView(customView, false)
+                    .stackingBehavior(StackingBehavior.ALWAYS).build()
+
+        }
+
+        this.initDialogButtons()
     }
 
-    fun create(customView: Int): Rateme {
-
-        this.mDialog = MaterialDialog.Builder(mContext)
-                .customView(customView, false)
-                .cancelable(false)
-                .stackingBehavior(StackingBehavior.ALWAYS)
-                .build()
-
-        return this
+    private fun initDialogButtons() {
+        this.setDialogButtonsTextAndTextColor()
+        this.setDialogButtonsClickEvents()
+        this.setCustomBackgrounds()
     }
 
+    private fun setCustomBackgrounds() {
+        if (this.customButtonFlag) {
+            this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setStackedGravity(GravityEnum.CENTER)
+            this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setStackedSelector(ContextCompat.getDrawable(context, this.rateButtonBackground))
 
-    fun initNativeDialogButtons() {
+            this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setStackedGravity(GravityEnum.CENTER)
+            this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setStackedSelector(ContextCompat.getDrawable(context, this.laterButtonBackground))
 
-        setDialogButtonsTextAndTextColor(mDialog)
-
-        setDialogButtonsClickEvents(mDialog)
-
+            this.mDialog?.getActionButton(DialogAction.NEUTRAL)?.setStackedGravity(GravityEnum.CENTER)
+            this.mDialog?.getActionButton(DialogAction.NEUTRAL)?.setStackedSelector(ContextCompat.getDrawable(context, this.neverButtonBackground))
+        }
     }
 
-    fun initCustomDialogButtons(rateButtonBackground: Int, laterButtonBackground: Int, neverButtonBackground: Int) {
+    private fun setDialogButtonsTextAndTextColor() {
 
-        setDialogButtonsTextAndTextColor(mDialog)
+        this.mDialog?.setActionButton(DialogAction.POSITIVE, context.getString(R.string.rateme_btn_rate_text))
+        this.mDialog?.setActionButton(DialogAction.NEGATIVE, context.getString(R.string.rateme_btn_later_text))
+        this.mDialog?.setActionButton(DialogAction.NEUTRAL, context.getString(R.string.rateme_btn_never_text))
 
-        mDialog?.getActionButton(DialogAction.POSITIVE)?.setStackedGravity(GravityEnum.CENTER)
-        mDialog?.getActionButton(DialogAction.POSITIVE)?.setStackedSelector(ContextCompat.getDrawable(mContext, rateButtonBackground))
-
-        mDialog?.getActionButton(DialogAction.NEGATIVE)?.setStackedGravity(GravityEnum.CENTER)
-        mDialog?.getActionButton(DialogAction.NEGATIVE)?.setStackedSelector(ContextCompat.getDrawable(mContext, laterButtonBackground))
-
-        mDialog?.getActionButton(DialogAction.NEUTRAL)?.setStackedGravity(GravityEnum.CENTER)
-        mDialog?.getActionButton(DialogAction.NEUTRAL)?.setStackedSelector(ContextCompat.getDrawable(mContext, neverButtonBackground))
-
-
-        setDialogButtonsClickEvents(mDialog)
-
-
+        this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setTextColor(ContextCompat.getColor(context, R.color.rm_BtnRateTextColor))
+        this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setTextColor(ContextCompat.getColor(context, R.color.rm_BtnLaterTextColor))
+        this.mDialog?.getActionButton(DialogAction.NEUTRAL)?.setTextColor(ContextCompat.getColor(context, R.color.rm_BtnNeverTextColor))
     }
 
-    private fun setDialogButtonsTextAndTextColor(dialog: MaterialDialog?) {
+    private fun setDialogButtonsClickEvents() {
 
-        dialog?.setActionButton(DialogAction.POSITIVE, mContext.getString(R.string.rateme_btn_rate_text))
-        dialog?.setActionButton(DialogAction.NEGATIVE, mContext.getString(R.string.rateme_btn_later_text))
-        dialog?.setActionButton(DialogAction.NEUTRAL, mContext.getString(R.string.rateme_btn_never_text))
-
-        dialog?.getActionButton(DialogAction.POSITIVE)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_rate_text_color))
-        dialog?.getActionButton(DialogAction.NEGATIVE)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_later_text_color))
-        dialog?.getActionButton(DialogAction.NEUTRAL)?.setTextColor(ContextCompat.getColor(mContext, R.color.btn_never_text_color))
-
-    }
-
-    private fun setDialogButtonsClickEvents(dialog: MaterialDialog?) {
-
-        dialog?.getActionButton(DialogAction.POSITIVE)?.setOnClickListener {
+        this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setOnClickListener {
             sendUserToGooglePlay(this.packageName)
         }
 
-        dialog?.getActionButton(DialogAction.NEGATIVE)?.setOnClickListener {
-            mDataHelper.deleteEvent("reminder")
-            mDataHelper.deleteEvent("conditionCompleted")
-            mDataHelper.saveEvent("conditionCompleted")
+        this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setOnClickListener {
+            this.mDataHelper.deleteEvent(Constants.REMINDER)
+            this.mDataHelper.deleteEvent(Constants.CONDITION_COMPLETED)
+            this.mDataHelper.saveEvent(Constants.CONDITION_COMPLETED)
             remindLater()
-            mDialog?.dismiss()
+            this.mDialog?.dismiss()
         }
 
-        dialog?.getActionButton(DialogAction.NEUTRAL)?.setOnClickListener {
+        // TODO seperate the disable protocol.
+        this.mDialog?.getActionButton(DialogAction.NEUTRAL)?.setOnClickListener {
 
-            mDataHelper.deleteAll()
-            mDataHelper.saveEvent("disable")
-            mDialog?.dismiss()
+            this.mDataHelper.deleteAll()
+            this.mDataHelper.saveEvent(Constants.DISABLE)
+            this.mDialog?.dismiss()
 
         }
 
     }
 
-    fun showDialog() {
-        mDialog?.show()
+    internal fun showDialog() {
+        this.mDialog?.show()
     }
-
 }

@@ -8,15 +8,25 @@ import com.zingat.rateme.model.Event
 import java.util.*
 import kotlin.collections.ArrayList
 
-
 /**
  * Created by ismailgungor on 24.01.2018.
+ *
+ * Completes the CRUD operations for [Rateme] operations.
+ * @since 1.0.0
  */
 class EventsSql(context: Context) {
 
     private val dbEvents: EventsDb = EventsDb(context, EventsDb.DATABASE_NAME, null, EventsDb.DATABASE_VERSION)
 
-
+    /**
+     * Inserts a new row with given string value.
+     *
+     * @see EventsDb.EVENT_NAME
+     * @see EventsDb.EVENT_TIME
+     *
+     * @since 1.0.0
+     * @author ismailgungor
+     */
     fun save(event: String) {
 
         val db = dbEvents.writableDatabase
@@ -30,6 +40,11 @@ class EventsSql(context: Context) {
 
     }
 
+    /**
+     * @return an event list with given name.
+     * @since 1.0.0
+     * @author ismailgungor
+     */
     fun findByName(eventName: String): ArrayList<Event> {
 
         val db = dbEvents.readableDatabase
@@ -37,8 +52,6 @@ class EventsSql(context: Context) {
         var eventId: Int
         var eventTime: Long
         val selectQuery = "SELECT * FROM " + EventsDb.TABLE_NAME + " WHERE " + EventsDb.EVENT_NAME + "='" + eventName + "'"
-
-
         val cursor: Cursor
 
         try {
@@ -52,7 +65,6 @@ class EventsSql(context: Context) {
 
         if (cursor.moveToFirst()) {
             do {
-
                 eventId = cursor.getInt(0)
                 eventTime = cursor.getLong(2)
 
@@ -67,6 +79,12 @@ class EventsSql(context: Context) {
         return eventList
     }
 
+    /**
+     * Deletes a single or multiple rows with given name
+     *
+     * @since 1.0.0
+     * @author ismailgungor
+     */
     fun delete(eventName: String) {
         val db = dbEvents.writableDatabase
         val whereArgs = arrayOf<String>(eventName)
@@ -74,6 +92,12 @@ class EventsSql(context: Context) {
         db.close()
     }
 
+    /**
+     * truncate the table
+     *
+     * @since 1.0.0
+     * @author ismailgungor
+     */
     fun deleteAll() {
 
         val db = dbEvents.writableDatabase
@@ -82,7 +106,12 @@ class EventsSql(context: Context) {
 
     }
 
-
+    /**
+     * @return all added events
+     *
+     * @since 1.0.0
+     * @author ismailgungor
+     */
     fun getAll(): ArrayList<Event> {
 
         val db = dbEvents.readableDatabase
@@ -102,7 +131,6 @@ class EventsSql(context: Context) {
             db.close()
             return eventList
         }
-
 
         if (cursor.moveToFirst()) {
             do {

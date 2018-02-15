@@ -5,6 +5,8 @@ import com.zingat.rateme.model.Event
 
 /**
  * Created by ismailgungor on 24.01.2018.
+ *
+ * Uses as controller between [DataHelper] and [Rateme]
  */
 @com.zingat.rateme.annotations.RatemeOpen
 class DataHelper(context: Context) {
@@ -25,7 +27,7 @@ class DataHelper(context: Context) {
 
     fun getReminder(): Long {
 
-        val reminderList = eventsSql.findByName("reminder")
+        val reminderList = eventsSql.findByName(Constants.REMINDER)
         if (reminderList.size > 0)
             return reminderList.get(0).getTime()
 
