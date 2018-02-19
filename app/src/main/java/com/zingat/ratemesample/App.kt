@@ -18,7 +18,7 @@ class App : Application() {
                 .addCondition("button", 3)
                 .reminderDuration(3)
                 .custom(R.layout.layout_dialog)
-                .delay(5000)
+                .delay(1000)
                 .customButton()
     }
 
