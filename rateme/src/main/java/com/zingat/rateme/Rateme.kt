@@ -9,6 +9,8 @@ import com.zingat.rateme.model.Event
 import android.content.pm.PackageManager
 import android.content.Intent
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import com.afollestad.materialdialogs.GravityEnum
 import com.afollestad.materialdialogs.StackingBehavior
 import com.zingat.rateme.callback.RMEventCallback
@@ -35,6 +37,7 @@ class Rateme {
     private var rateButtonBackground: Int = 0
     private var laterButtonBackground: Int = 0
     private var neverButtonBackground: Int = 0
+    private var delay: Long = 0
     private var customButtonFlag: Boolean = false
 
     internal lateinit var mDataHelper: DataHelper
@@ -42,8 +45,8 @@ class Rateme {
 
     internal var onShow: RMEventCallback? = null
     internal var onPositive: RMEventCallback? = null
-    internal  var onNegative: RMEventCallback? = null
-    internal  var onNeutral: RMEventCallback? = null
+    internal var onNegative: RMEventCallback? = null
+    internal var onNeutral: RMEventCallback? = null
 
     companion object : SingletonHolder<Rateme, Context>(::Rateme)
 
@@ -94,19 +97,25 @@ class Rateme {
         return this
     }
 
-    fun onRateCallback( callback : RMEventCallback){
+    fun delay(miliseconds: Long):Rateme {
+        this.delay = miliseconds
+
+        return this
+    }
+
+    fun onRateCallback(callback: RMEventCallback) {
         this.onPositive = callback
     }
 
-    fun onRemindLaterCallback( callback : RMEventCallback){
+    fun onRemindLaterCallback(callback: RMEventCallback) {
         this.onNegative = callback
     }
 
-    fun onDontAskCallback( callback : RMEventCallback){
+    fun onDontAskCallback(callback: RMEventCallback) {
         this.onNeutral = callback
     }
 
-    fun onShowCallback( callback : RMEventCallback){
+    fun onShowCallback(callback: RMEventCallback) {
         this.onShow = callback
     }
     // Builder End methods
@@ -216,6 +225,7 @@ class Rateme {
         this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setOnClickListener {
             sendUserToGooglePlay(this.packageName)
             this.onPositive?.onEvent()
+            this.mDialog!!.dismiss()
         }
 
         this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setOnClickListener {
@@ -240,7 +250,8 @@ class Rateme {
     }
 
     internal fun showDialog() {
-        this.onShow?.onEvent()
-        this.mDialog?.show()
+        Handler().postDelayed( Runnable {
+            this.onShow?.onEvent()
+            this.mDialog?.show() }, this.delay )
     }
 }
