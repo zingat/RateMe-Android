@@ -11,6 +11,7 @@ import android.content.Intent
 import android.net.Uri
 import com.afollestad.materialdialogs.GravityEnum
 import com.afollestad.materialdialogs.StackingBehavior
+import com.zingat.rateme.callback.RMEventCallback
 
 /**
  * Created by mustafaolkun on 24/01/2018.
@@ -25,7 +26,6 @@ class Rateme {
         init()
     }
 
-
     private var mConditionList: ArrayList<Condition> = ArrayList<Condition>()
     private var mDuration = 3
     private var packageName = ""
@@ -39,6 +39,11 @@ class Rateme {
 
     internal lateinit var mDataHelper: DataHelper
     internal lateinit var mCheckCondition: CheckCondition
+
+    internal var onShow: RMEventCallback? = null
+    internal var onPositive: RMEventCallback? = null
+    internal  var onNegative: RMEventCallback? = null
+    internal  var onNeutral: RMEventCallback? = null
 
     companion object : SingletonHolder<Rateme, Context>(::Rateme)
 
@@ -87,6 +92,22 @@ class Rateme {
         this.neverButtonBackground = R.drawable.rm_never_button_background
 
         return this
+    }
+
+    fun onRateCallback( callback : RMEventCallback){
+        this.onPositive = callback
+    }
+
+    fun onRemindLaterCallback( callback : RMEventCallback){
+        this.onNegative = callback
+    }
+
+    fun onDontAskCallback( callback : RMEventCallback){
+        this.onNeutral = callback
+    }
+
+    fun onShowCallback( callback : RMEventCallback){
+        this.onShow = callback
     }
     // Builder End methods
 
@@ -194,6 +215,7 @@ class Rateme {
 
         this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setOnClickListener {
             sendUserToGooglePlay(this.packageName)
+            this.onPositive?.onEvent()
         }
 
         this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setOnClickListener {
@@ -202,6 +224,7 @@ class Rateme {
             this.mDataHelper.saveEvent(Constants.CONDITION_COMPLETED)
             remindLater()
             this.mDialog?.dismiss()
+            this.onNegative?.onEvent()
         }
 
         // TODO seperate the disable protocol.
@@ -210,12 +233,14 @@ class Rateme {
             this.mDataHelper.deleteAll()
             this.mDataHelper.saveEvent(Constants.DISABLE)
             this.mDialog?.dismiss()
+            this.onNeutral?.onEvent()
 
         }
 
     }
 
     internal fun showDialog() {
+        this.onShow?.onEvent()
         this.mDialog?.show()
     }
 }

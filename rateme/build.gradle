@@ -1,18 +1,42 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: "kotlin-allopen"
+apply from: '../dependencies.gradle'
+
+ext {
+    bintrayRepo = 'Rateme'
+    bintrayName = 'rateme'
+
+    publishedGroupId = 'com.zingat'
+    libraryName = 'Rateme'
+    artifact = 'rateme'
+
+    libraryDescription = 'Rateme is Android library provides to show dialog users when defined events completed.'
+
+    siteUrl = 'https://github.com/zingat/RateMe-Android'
+    gitUrl = 'https://github.com/zingat/RateMe-Android.git'
+
+    libraryVersion = versions.publishVersion
+
+    developerId = 'mustafaolkun'
+    developerName = 'Mustafa Olkun'
+    developerEmail = 'olkun.mustafa@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion versions.compileSdk
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode versions.publishVersionCode
+        versionName versions.publishVersion
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -25,16 +49,20 @@ android {
     allOpen {
         annotation("com.zingat.rateme.annotations.RatemeOpen")
     }
+
+    tasks.withType(Javadoc).all {
+        enabled = false
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:appcompat-v7:27.0.1'
 
     // Material Dialogs
-    compile 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.assertj:assertj-core:3.9.0'
@@ -46,3 +74,6 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

@@ -1,0 +1,13 @@
+ext.versions = [
+        minSdk            : 15,
+        compileSdk        : 27,
+        targetSdk         : 27,
+        buildTools        : '25.0.1',
+        publishVersion    : '1.0.0',
+        publishVersionCode: 1,
+
+        sampleVersionCode : 1,
+        sampleVersionName : '1.0.0',
+
+        supportLib        : '25.3.1',
+]

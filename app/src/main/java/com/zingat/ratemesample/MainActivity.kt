@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.zingat.rateme.Rateme
+import com.zingat.rateme.callback.RMEventCallback
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +23,11 @@ class MainActivity : AppCompatActivity() {
         count += 1
         Rateme.getInstance(this)
                 .addEvent("button")
+                .onRateCallback( object : RMEventCallback {
+                    override fun onEvent() {
+                    }
+                })
+
         Toast.makeText(this, "$count kere dokunuldu", Toast.LENGTH_SHORT).show()
 
     }
