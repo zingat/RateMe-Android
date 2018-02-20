@@ -11,6 +11,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
+import android.view.WindowManager
 import com.afollestad.materialdialogs.GravityEnum
 import com.afollestad.materialdialogs.StackingBehavior
 import com.zingat.rateme.callback.RMEventCallback
@@ -251,7 +252,13 @@ class Rateme {
 
     internal fun showDialog() {
         Handler().postDelayed( Runnable {
-            this.onShow?.onEvent()
-            this.mDialog?.show() }, this.delay )
+            try {
+                this.onShow?.onEvent()
+                this.mDialog?.show()
+            } catch ( exception : WindowManager.BadTokenException ){
+                exception.printStackTrace()
+            }
+
+        }, this.delay )
     }
 }
