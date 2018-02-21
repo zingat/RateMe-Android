@@ -78,7 +78,7 @@ class Rateme {
         if (this.mCheckCondition.isRatemeEnable()) {
             this.mDataHelper.saveEvent(eventName)
             this.create()
-            this.process()
+            this.process(eventName)
         }
         return this
     }
@@ -98,7 +98,7 @@ class Rateme {
         return this
     }
 
-    fun delay(miliseconds: Long):Rateme {
+    fun delay(miliseconds: Long): Rateme {
         this.delay = miliseconds
 
         return this
@@ -127,7 +127,7 @@ class Rateme {
         setPackageName()
     }
 
-    internal fun process() {
+    internal fun process(eventName: String) {
 
         val reminderValue = this.mDataHelper.getReminder()
         val isReminderEnd = mCheckCondition.isReminderEnd(this.mDuration, reminderValue)
@@ -139,7 +139,9 @@ class Rateme {
             if (!isConditonCompletedValue) {
 
                 val eventList: ArrayList<Event> = this.mDataHelper.getAllEvents()
-                val isConditionComplete = mCheckCondition.isConditionsComplete(this.mConditionList, eventList)
+                val isConditionComplete = mCheckCondition
+                        .setProcessName(eventName)
+                        .isConditionsComplete(this.mConditionList, eventList)
 
                 if (isConditionComplete) {
                     this.showDialog()
@@ -251,14 +253,14 @@ class Rateme {
     }
 
     internal fun showDialog() {
-        Handler().postDelayed( Runnable {
+        Handler().postDelayed(Runnable {
             try {
                 this.onShow?.onEvent()
                 this.mDialog?.show()
-            } catch ( exception : WindowManager.BadTokenException ){
+            } catch (exception: WindowManager.BadTokenException) {
                 exception.printStackTrace()
             }
 
-        }, this.delay )
+        }, this.delay)
     }
 }
