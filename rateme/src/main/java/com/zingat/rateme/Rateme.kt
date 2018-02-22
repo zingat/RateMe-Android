@@ -226,9 +226,10 @@ class Rateme {
     private fun setDialogButtonsClickEvents() {
 
         this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setOnClickListener {
-            sendUserToGooglePlay(this.packageName)
+            this.mDataHelper.saveEvent(Constants.DISABLE)
             this.onPositive?.onEvent()
             this.mDialog!!.dismiss()
+            sendUserToGooglePlay(this.packageName)
         }
 
         this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setOnClickListener {
