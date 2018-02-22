@@ -36,22 +36,52 @@ class CheckConditionTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
 
-        this.checkCondition = CheckCondition( this.mockDataHelper )
+        this.fakeEventList.clear()
+        this.checkCondition = CheckCondition(this.mockDataHelper)
         this.fakeConditionList.add(Condition(3, TEST_CONDITION_CONS))
+        this.fakeConditionList.add(Condition(2, TEST_CONDITION_2_CONS))
 
         this.fakeEventList.add(Event(1, TEST_CONDITION_CONS, 0))
         this.fakeEventList.add(Event(2, TEST_CONDITION_CONS, 0))
         this.fakeEventList.add(Event(3, TEST_CONDITION_CONS, 0))
+
+        this.fakeEventList.add(Event(4, TEST_CONDITION_2_CONS, 0))
     }
 
 
     @Test
-    fun isConditionsComplete_ShouldReturnTrue() {
+    fun isConditionsComplete_ShouldReturnTrue_WhenProcessNameIsCorrect() {
 
-        val result: Boolean = checkCondition.isConditionsComplete(this.fakeConditionList, this.fakeEventList)
+        val result: Boolean = checkCondition
+                .setProcessName(TEST_CONDITION_CONS)
+                .isConditionsComplete(this.fakeConditionList, this.fakeEventList)
+
         Assertions.assertThat(result).isTrue()
 
     }
+
+    @Test
+    fun isConditionsComplete_ShouldReturnTrue_WhenGivenProcessNameConditionCountIsNotEnugh() {
+
+        val result: Boolean = checkCondition
+                .setProcessName(TEST_CONDITION_2_CONS)
+                .isConditionsComplete(this.fakeConditionList, this.fakeEventList)
+
+        Assertions.assertThat(result).isFalse()
+
+    }
+
+    @Test
+    fun isConditionsComplete_ShouldReturnFalse_IfProcessNameIsEmpty() {
+
+        val result: Boolean = checkCondition
+                .setProcessName("")
+                .isConditionsComplete(this.fakeConditionList, this.fakeEventList)
+
+        Assertions.assertThat(result).isFalse()
+
+    }
+
 
     @Test
     fun isConditionsComplete_ShouldReturnFalse_IfEventListCountIsMissing() {
@@ -85,7 +115,7 @@ class CheckConditionTest {
     fun isRatemeEnable_ShouldReturnTrue_IfListSizeEqualToZero() {
 
         this.fakeEventList.clear()
-        Mockito.doReturn( this.fakeEventList ).`when`(this.mockDataHelper).findByEventName(Constants.DISABLE)
+        Mockito.doReturn(this.fakeEventList).`when`(this.mockDataHelper).findByEventName(Constants.DISABLE)
         val ratemeEnable: Boolean = this.checkCondition.isRatemeEnable()
         Assertions.assertThat(ratemeEnable).isTrue()
 

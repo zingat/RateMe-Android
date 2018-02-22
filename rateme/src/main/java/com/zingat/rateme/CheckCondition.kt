@@ -4,6 +4,7 @@ import com.zingat.rateme.model.Condition
 import com.zingat.rateme.model.Event
 import java.util.*
 import java.util.concurrent.TimeUnit
+import java.util.function.Predicate
 import kotlin.collections.ArrayList
 
 /**
@@ -15,6 +16,7 @@ import kotlin.collections.ArrayList
 class CheckCondition(dataHelper: DataHelper) {
 
     var mDataHelper: DataHelper = dataHelper
+    var mProcessName: String? = null
 
     /**
      * Compares the conditions and datas
@@ -33,6 +35,7 @@ class CheckCondition(dataHelper: DataHelper) {
 
         eventList
                 .map { it.getName() }
+                .filter { it == this.mProcessName }
                 .forEach {
                     if (currentEventMap.containsKey(it)) {
                         val currentValue = currentEventMap[it]!!
@@ -47,9 +50,9 @@ class CheckCondition(dataHelper: DataHelper) {
         for (condition in conditionList) {
 
             val currentConditionType = condition.getType()
-            val currentConditionValue = condition.getCount()
+            val currentConditionCount = condition.getCount()
 
-            if (currentEventMap.containsKey(currentConditionType) && currentEventMap[currentConditionType] == currentConditionValue) {
+            if (currentEventMap.containsKey(currentConditionType) && currentEventMap[currentConditionType] == currentConditionCount) {
                 return true
             }
         }
@@ -112,4 +115,9 @@ class CheckCondition(dataHelper: DataHelper) {
         return disableList.size == 0
     }
 
+    internal fun setProcessName(name: String): CheckCondition {
+        this.mProcessName = name
+
+        return this
+    }
 }
