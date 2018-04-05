@@ -15,10 +15,10 @@ class SecondActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    fun dokunBana(view: View) {
+    fun touchMe(view: View) {
         count += 1
         Rateme.getInstance(this)
-                .addEvent("button")
+                .addEvent("touch_me_event")
                 .onRateCallback( object : RMEventCallback {
                     override fun onEvent() {
                     }

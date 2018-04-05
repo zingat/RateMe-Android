@@ -61,7 +61,7 @@ class CheckConditionTest {
     }
 
     @Test
-    fun isConditionsComplete_ShouldReturnTrue_WhenGivenProcessNameConditionCountIsNotEnugh() {
+    fun isConditionsComplete_ShouldReturnFalse_WhenGivenProcessNameConditionCountIsNotEnugh() {
 
         val result: Boolean = checkCondition
                 .setProcessName(TEST_CONDITION_2_CONS)

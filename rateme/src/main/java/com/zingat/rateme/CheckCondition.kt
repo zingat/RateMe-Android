@@ -19,7 +19,7 @@ class CheckCondition(dataHelper: DataHelper) {
     var mProcessName: String? = null
 
     /**
-     * Compares the conditions and datas
+     * Compares the conditions and events
      * Conditions are provided by developer in their activity by using [Rateme.addCondition]
      * The data got from database by following user's behaviours with [Rateme.addEvent] method
      *
@@ -28,6 +28,7 @@ class CheckCondition(dataHelper: DataHelper) {
      *
      * @since 1.0.0
      * @author ismailgungor
+     * @return
      */
     fun isConditionsComplete(conditionList: ArrayList<Condition>, eventList: ArrayList<Event>): Boolean {
 
@@ -70,6 +71,7 @@ class CheckCondition(dataHelper: DataHelper) {
      *
      * @since 1.0.0
      * @author ismailgungor
+     * @return true if the passed time is bigger than the selected reminder time. So we can show dialog.
      */
     fun isReminderEnd(reminderDuration: Int, reminderValue: Long): Boolean {
 
@@ -83,26 +85,14 @@ class CheckCondition(dataHelper: DataHelper) {
     }
 
     /**
-     * return true given arraylist size bigger than 0
      * @param eventList
      *
      * @since 1.0.0
      * @author ismailgungor
+     * @return true given arraylist size bigger than 0
      */
     fun isThereConditionCompletedValue(eventList: ArrayList<Event>): Boolean {
         return eventList.size > 0
-    }
-
-    /**
-     * Provides phone current time based on the timezone
-     * Uses in different methods to mock in unit tests.
-     *
-     * @since 1.0.0
-     * @author ismailgungor
-     */
-    fun getCurrentTime(): Long {
-        return Calendar.getInstance().timeInMillis
-
     }
 
     /**

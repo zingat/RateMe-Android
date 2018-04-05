@@ -15,22 +15,23 @@ import android.os.Looper
 import android.view.WindowManager
 import com.afollestad.materialdialogs.GravityEnum
 import com.afollestad.materialdialogs.StackingBehavior
+import com.zingat.rateme.callback.RMCallback
 import com.zingat.rateme.callback.RMEventCallback
 
 /**
  * Created by mustafaolkun on 24/01/2018.
  */
 @com.zingat.rateme.annotations.RatemeOpen
-class Rateme {
+class Rateme() {
 
-    internal var context: Context
+    internal lateinit var context: Context
 
-    constructor(context: Context) {
+    constructor(context: Context) : this() {
         this.context = context
         init()
     }
 
-    private var mConditionList: ArrayList<Condition> = ArrayList<Condition>()
+    private var mConditionList: ArrayList<Condition> = ArrayList()
     private var mDuration = 3
     private var packageName = ""
     private var mDialog: MaterialDialog? = null
@@ -41,6 +42,8 @@ class Rateme {
     private var neverButtonBackground: Int = 0
     private var delay: Long = 0
     private var customButtonFlag: Boolean = false
+    private val conditionHelper: ConditionHelper = ConditionHelper()
+    private lateinit var eventName: String
 
     internal lateinit var mDataHelper: DataHelper
     internal lateinit var mCheckCondition: CheckCondition
@@ -49,6 +52,12 @@ class Rateme {
     internal var onPositive: RMEventCallback? = null
     internal var onNegative: RMEventCallback? = null
     internal var onNeutral: RMEventCallback? = null
+    internal var onEvent: RMCallback? = null
+
+    private val STARTED: Int = -1
+    private val POSITIVE: Int = 0
+    private val NEUTRAL: Int = 1
+    private val NEGATIVE: Int = 2
 
     companion object : SingletonHolder<Rateme, Context>(::Rateme)
 
@@ -77,9 +86,11 @@ class Rateme {
     fun addEvent(eventName: String): Rateme {
 
         if (this.mCheckCondition.isRatemeEnable()) {
+            this.eventName = eventName
+
             this.mDataHelper.saveEvent(eventName)
             this.create()
-            this.process(eventName)
+            this.process()
         }
         return this
     }
@@ -120,6 +131,10 @@ class Rateme {
     fun onShowCallback(callback: RMEventCallback) {
         this.onShow = callback
     }
+
+    fun onRMCallback(callback: RMCallback) {
+        this.onEvent = callback
+    }
     // Builder End methods
 
     private fun init() {
@@ -128,7 +143,7 @@ class Rateme {
         setPackageName()
     }
 
-    internal fun process(eventName: String) {
+    internal fun process() {
 
         val reminderValue = this.mDataHelper.getReminder()
         val isReminderEnd = mCheckCondition.isReminderEnd(this.mDuration, reminderValue)
@@ -141,7 +156,7 @@ class Rateme {
 
                 val eventList: ArrayList<Event> = this.mDataHelper.getAllEvents()
                 val isConditionComplete = mCheckCondition
-                        .setProcessName(eventName)
+                        .setProcessName(this.eventName)
                         .isConditionsComplete(this.mConditionList, eventList)
 
                 if (isConditionComplete) {
@@ -233,6 +248,11 @@ class Rateme {
             this.onPositive?.onEvent()
             this.mDialog!!.dismiss()
             sendUserToGooglePlay(this.packageName)
+            this.onEvent?.onEvent(
+                    this.eventName,
+                    this.conditionHelper.findGivenConditionCount(this.mConditionList, this.eventName),
+                    POSITIVE
+            )
         }
 
         this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setOnClickListener {
@@ -242,6 +262,11 @@ class Rateme {
             remindLater()
             this.mDialog?.dismiss()
             this.onNegative?.onEvent()
+            this.onEvent?.onEvent(
+                    this.eventName,
+                    this.conditionHelper.findGivenConditionCount(this.mConditionList, this.eventName),
+                    NEGATIVE
+            )
         }
 
         // TODO seperate the disable protocol.
@@ -251,7 +276,11 @@ class Rateme {
             this.mDataHelper.saveEvent(Constants.DISABLE)
             this.mDialog?.dismiss()
             this.onNeutral?.onEvent()
-
+            this.onEvent?.onEvent(
+                    this.eventName,
+                    this.conditionHelper.findGivenConditionCount(this.mConditionList, this.eventName),
+                    NEUTRAL
+            )
         }
 
     }
@@ -261,6 +290,7 @@ class Rateme {
             try {
                 this.onShow?.onEvent()
                 this.mDialog?.show()
+                this.onEvent?.onEvent(this.eventName, conditionHelper.findGivenConditionCount(this.mConditionList, eventName), STARTED)
             } catch (exception: WindowManager.BadTokenException) {
                 exception.printStackTrace()
             }
