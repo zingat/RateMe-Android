@@ -54,12 +54,13 @@ class RatemeTest {
     }
 
     @Test
-    fun startShowProcess_ShouldTrigger_IfIsReminderEndReturnFalse() {
+    fun startShowProcess_ShouldTrigger_IfIsReminderEndReturnTrue() {
 
         // When
         Mockito.doReturn(true).`when`(this.mockCheckCondition).isReminderEnd(Mockito.anyInt(), Mockito.anyLong())
         Mockito.doReturn(this.mockEventList).`when`(this.mockDataHelper).findByEventName(Constants.CONDITION_COMPLETED)
         Mockito.doReturn(true).`when`(this.mockCheckCondition).isThereConditionCompletedValue( this.mockEventList )
+        Mockito.doNothing().`when`(this.rateMe).showDialog()
 
         // Then
         this.rateMe.process()

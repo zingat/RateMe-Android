@@ -18,7 +18,7 @@ class SecondActivity : AppCompatActivity() {
     fun dokunBana(view: View) {
         count += 1
         Rateme.getInstance(this)
-                .addEvent("button")
+                .addEvent("touch_me_event")
                 .onRateCallback( object : RMEventCallback {
                     override fun onEvent() {
                     }
