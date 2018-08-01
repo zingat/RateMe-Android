@@ -7,8 +7,8 @@ ext.versions = [
         publishVersion    : '1.2.0',
         publishVersionCode: 8,
 
-        sampleVersionCode : 3,
-        sampleVersionName : '1.1.0',
+        sampleVersionCode : 4,
+        sampleVersionName : '1.1.1',
 
         supportLib        : '25.3.1',
 ]
