@@ -10,14 +10,22 @@ import com.zingat.rateme.callback.RMEventCallback
 
 class MainActivity : AppCompatActivity() {
 
+    var count = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
     }
 
-    fun dokunBana(view: View) {
-        val secondActivity = Intent(this, SecondActivity::class.java)
-        startActivity(secondActivity)
+    fun touchMe(view: View) {
+        count += 1
+        Rateme.getInstance(this)
+                .addEvent("touch_me_event")
+                .onRateCallback( object : RMEventCallback {
+                    override fun onEvent() {
+                    }
+                })
+
+        Toast.makeText(this, "$count times touched", Toast.LENGTH_SHORT).show()
     }
 }
