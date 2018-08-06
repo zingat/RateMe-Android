@@ -1,5 +1,5 @@
 ﻿<p align="center">
-  <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/dev/art/ratemelogo.png">
+  <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/ratemebranch/art/ratemelogo.png">
 </p>
 
 <p align="center">
@@ -58,7 +58,7 @@ a product in your app 2 times you can send `product_liked` event. For all statem
 The default appearance is on App is like picture below.
 
 <p align="center">
-  <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/dev/art/defaultRatemeDialogWindow.png">
+  <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/ratemebranch/art/defaultRatemeDialogWindow.png">
 </p>
 
 
