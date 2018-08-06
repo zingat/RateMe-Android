@@ -198,7 +198,7 @@ class Rateme() {
         if (this.customView == 0) {
             this.mDialog = builder
                     .title(context.getString(R.string.rateme_dialog_title))
-                    .content(context.getString(R.string.rateme_dialog_title))
+                    .content(context.getString(R.string.rateme_dialog_message))
                     .build()
         } else {
             this.mDialog = builder.customView(customView, false)

@@ -21,10 +21,6 @@ class MainActivity : AppCompatActivity() {
         count += 1
         Rateme.getInstance(this)
                 .addEvent("touch_me_event")
-                .onRateCallback( object : RMEventCallback {
-                    override fun onEvent() {
-                    }
-                })
 
         Toast.makeText(this, "$count times touched", Toast.LENGTH_SHORT).show()
     }

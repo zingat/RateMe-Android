@@ -20,18 +20,7 @@ class App : Application() {
         Rateme.getInstance(this@App)
                 .addCondition("touch_me_event", 3)
                 .reminderDuration(3)
-                .custom(R.layout.layout_dialog)
                 .delay(2500)
-                .customButton()
-                .onRMCallback( object : RMCallback {
-                    override fun onEvent(eventName: String, count: Int, which: Int) {
-                        var eventData = "$eventName showed on after $count condition completed."
-                        if( which > -1 ){
-                            eventData += " Clicked event is $which"
-                        }
-                        Toast.makeText(this@App, eventData, Toast.LENGTH_SHORT).show()
-                    }
-                })
     }
 
 }
