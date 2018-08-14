@@ -38,7 +38,6 @@ dependencies {
            Rateme.getInstance(this@App)
                    .addCondition("touch_me_event", 3)
                    .reminderDuration(3)
-                   .delay(2500)
        }
    
    }
@@ -82,6 +81,67 @@ The parameter is given in days.
 
 When user clicks the `Don't Ask Again` button, the dialog disappears and never appear again.
 
+# Arranging delay time
+
+RateMe supports to arrange the delay time
+`delay(time : Long)` indicates the time to display dialog after all events completed.
+Default value is 0.
+
+
+```kotlin
+    Rateme.getInstance(this@App)
+                       .addCondition("touch_me_event", 3)
+                       .reminderDuration(3)
+                       .delay(2500)
+```
+ 
+# Callbacks
+
+To know when the user selects an action button, you set callbacks:
+
+```kotlin
+    Rateme.getInstance(this@App)
+                 .addCondition("touch_me_event", 3)
+                 .reminderDuration(3)
+                 .delay(2500)
+                 .onRateCallback( object : RMEventCallback{
+                     override fun onEvent() {
+                         // TODO
+                     }
+                 })
+                 .onDontAskCallback(object : RMEventCallback{
+                     override fun onEvent() {
+                         // TODO
+                     }
+                 })
+                 .onRemindLaterCallback(object : RMEventCallback{
+                     override fun onEvent() {
+                         // TODO
+                     }
+                 })
+                 .onShowCallback(object : RMEventCallback{
+                     override fun onEvent() {
+                         // TODO
+                     }
+                 })
+                 .onRMCallback(object : RMCallback{
+                     override fun onEvent(eventName: String, count: Int, which: Int) {
+                         // TODO
+                     }
+                 })
+  ```
+If you are listening for all three action buttons, you could just use `onRMCallback()`.
+ 
+ * `eventName (String)` parameter tells completed event name. In our case this is `touch_me_event`
+ * `count (Int)` parameter tells completed event count value. In our case this is `3`. 
+ The count value is defined by developer when you in `addCondition()` method.
+ * `which (Int)` parameter tells which action is happening. Each number indicates different state.
+    * STARTED = -1
+    * POSITIVE = 0
+    * NEUTRAL = 1
+    * NEGATIVE = 2
+   
+           
 
 
 
