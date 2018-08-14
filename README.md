@@ -28,7 +28,7 @@ dependencies {
 
 #Quick start
 
-### 1. Initialize `RateMe` in your `Application` class
+### Initialize `RateMe` in your `Application` class
 ```kotlin
    class App : Application() {
    
@@ -46,7 +46,7 @@ dependencies {
 
 Now we are telling RateMe that you can show a dialog when 3 times `touch_me_event` is sent.
 
-### 2. How `touch_me_event` is sent to RateMe.
+### How `touch_me_event` is sent to RateMe.
 ```kotlin
     Rateme.getInstance(this)
                 .addEvent("touch_me_event")
@@ -55,10 +55,34 @@ Now we are telling RateMe that you can show a dialog when 3 times `touch_me_even
 The event can be sent for each statement. For example when a user opens the app 4 times you can send `app_opened` event or user can like 
 a product in your app 2 times you can send `product_liked` event. For all statements you can send event seperately.
 
-The default appearance is on App is like picture below.
+The default appearance is on App like picture below.
 
 <p align="center">
   <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/readmebranch/art/defaultRatemeDialogWindow.png">
 </p>
+
+`When dialog shown on screen, user have to choose one of these options to close the window. 
+To touch background and back button don't close the window.`
+
+# How Buttons works
+
+### Rate Us
+
+RateMe library detects your applicationId(for example com.zingat.rateme) and
+ When user clicks the `Rate Us` button, your app's Google Play page opens automaticly 
+ and user can rate your app easily.
+ 
+### Remind Me Later
+
+When user clicks the `Remind Me Later` button, the dialog disappears until the days finished 
+you defined in initialization code. `reminderDuration(day:Int)` is used define the necessary time.
+The parameter is given in days.
+
+### Don't Ask Again
+
+When user clicks the `Don't Ask Again` button, the dialog disappears and never appear again.
+
+
+
 
 
