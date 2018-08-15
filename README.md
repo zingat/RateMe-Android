@@ -11,7 +11,7 @@
   </a>
 </p>
 
-RateMe is a powerful system for getting rates from users in Android applications.
+RateMe is a powerful system to get rates from users in Android applications.
 
 RateMe takes cares to show garish dialogs to collect rates from users so you don't have to.
 One thing you do is to define some rules and send events to RateMe library.
@@ -92,7 +92,7 @@ Default value is 0.
     Rateme.getInstance(this@App)
                        .addCondition("touch_me_event", 3)
                        .reminderDuration(3)
-                       .delay(2500)
+                       .delay(1000)
 ```
  
 # Callbacks
@@ -102,8 +102,7 @@ To know when the user selects an action button, you set callbacks:
 ```kotlin
     Rateme.getInstance(this@App)
                  .addCondition("touch_me_event", 3)
-                 .reminderDuration(3)
-                 .delay(2500)
+                 .delay(1000)
                  .onRateCallback( object : RMEventCallback{
                      override fun onEvent() {
                          // TODO
@@ -134,15 +133,35 @@ If you are listening for all three action buttons, you could just use `onRMCallb
  
  * `eventName (String)` parameter tells completed event name. In our case this is `touch_me_event`
  * `count (Int)` parameter tells completed event count value. In our case this is `3`. 
- The count value is defined by developer when you in `addCondition()` method.
+ The count value is defined by developer in `addCondition()` method.
  * `which (Int)` parameter tells which action is happening. Each number indicates different state.
     * STARTED = -1
     * POSITIVE = 0
     * NEUTRAL = 1
     * NEGATIVE = 2
    
-           
+# Custom Views
 
+// Not customView için örnek fotoğraf çekilip yüklenmedi. custom() metodu çalıştırıldktan sonra
+// ekran görüntüsü alıp img kısmına koyacağız.
+// Ardından custom ekrana buton vs. konulmaması için uyarı koyacağız çünkü buradan gelecek etkileşimler için
+// callback almıyoruz. Amacımız rateme dialogu göstermek.
+
+Custom views are very easy to implement.
+
+```kotlin
+    Rateme.getInstance(this@App)
+                    .addCondition("touch_me_event", 3)
+                    .reminderDuration(3)
+                    .delay(1000)
+                    .custom(R.layout.layout_dialog)
+```
+
+After custom view is added appearance is on App like picture below. 
+
+<p align="center">
+  <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/readmebranch/art/customImageDialogWindow.png">
+</p>
 
 
 
