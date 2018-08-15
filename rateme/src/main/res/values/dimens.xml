@@ -3,4 +3,5 @@
     <dimen name="rm_radius">8dp</dimen>
     <dimen name="rm_item_lr">20dp</dimen>
     <dimen name="rm_item_tb">3dp</dimen>
+    <dimen name="rm_background_stroke_width">1dp</dimen>
 </resources>

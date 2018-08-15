@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="rm_defaultButtonBackground">#fff</color>
+    <color name="rm_defaultTextColor">#fff</color>
     <color name="rm_BtnRateTextColor">#02a8fe</color>
-    <color name="rm_BtnLaterTextColor">#ff6175</color>
-    <color name="rm_BtnNeverTextColor">#4bca5e</color>
+    <color name="rm_BtnLaterTextColor">#4bca5e</color>
+    <color name="rm_BtnNeverTextColor">#ff6175</color>
 </resources>

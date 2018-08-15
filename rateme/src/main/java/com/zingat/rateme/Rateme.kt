@@ -11,7 +11,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
-import android.os.Looper
 import android.view.WindowManager
 import com.afollestad.materialdialogs.GravityEnum
 import com.afollestad.materialdialogs.StackingBehavior
@@ -38,8 +37,14 @@ class Rateme() {
 
     private var customView: Int = 0
     private var rateButtonBackground: Int = 0
+    private var rateButtonTextColor: Int = R.color.rm_BtnRateTextColor
+
     private var laterButtonBackground: Int = 0
+    private var laterButtonTextColor: Int = R.color.rm_BtnLaterTextColor
+
     private var neverButtonBackground: Int = 0
+    private var neverButtonTextColor: Int = R.color.rm_BtnNeverTextColor
+
     private var delay: Long = 0
     private var customButtonFlag: Boolean = false
     private val conditionHelper: ConditionHelper = ConditionHelper()
@@ -106,6 +111,19 @@ class Rateme() {
         this.rateButtonBackground = R.drawable.rm_rate_button_background
         this.laterButtonBackground = R.drawable.rm_later_button_background
         this.neverButtonBackground = R.drawable.rm_never_button_background
+
+        return this
+    }
+
+    fun customButtonReverse(): Rateme {
+        this.customButtonFlag = true
+        this.rateButtonBackground = R.drawable.rm_rate_button_reverse_background
+        this.laterButtonBackground = R.drawable.rm_later_button_reverse_background
+        this.neverButtonBackground = R.drawable.rm_never_button_reverse_background
+
+        this.rateButtonTextColor = R.color.rm_defaultTextColor
+        this.laterButtonTextColor = R.color.rm_defaultTextColor
+        this.neverButtonTextColor = R.color.rm_defaultTextColor
 
         return this
     }
@@ -220,14 +238,15 @@ class Rateme() {
     }
 
     private fun initDialogButtons() {
+
         this.setDialogButtonsTextAndTextColor()
         this.setDialogButtonsClickEvents()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            this.setCustomBackgrounds()
+            this.setCustomSettings()
     }
 
-    private fun setCustomBackgrounds() {
+    private fun setCustomSettings() {
         if (this.customButtonFlag) {
             this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setStackedGravity(GravityEnum.CENTER)
             this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setStackedSelector(ContextCompat.getDrawable(context, this.rateButtonBackground))
@@ -246,9 +265,9 @@ class Rateme() {
         this.mDialog?.setActionButton(DialogAction.NEGATIVE, context.getString(R.string.rateme_btn_later_text))
         this.mDialog?.setActionButton(DialogAction.NEUTRAL, context.getString(R.string.rateme_btn_never_text))
 
-        this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setTextColor(ContextCompat.getColor(context, R.color.rm_BtnRateTextColor))
-        this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setTextColor(ContextCompat.getColor(context, R.color.rm_BtnLaterTextColor))
-        this.mDialog?.getActionButton(DialogAction.NEUTRAL)?.setTextColor(ContextCompat.getColor(context, R.color.rm_BtnNeverTextColor))
+        this.mDialog?.getActionButton(DialogAction.POSITIVE)?.setTextColor(ContextCompat.getColor(this.context, this.rateButtonTextColor))
+        this.mDialog?.getActionButton(DialogAction.NEGATIVE)?.setTextColor(ContextCompat.getColor(this.context, this.laterButtonTextColor))
+        this.mDialog?.getActionButton(DialogAction.NEUTRAL)?.setTextColor(ContextCompat.getColor(this.context, this.neverButtonTextColor))
     }
 
     private fun setDialogButtonsClickEvents() {

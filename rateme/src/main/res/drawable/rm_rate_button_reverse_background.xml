@@ -8,14 +8,14 @@
         >
         <shape
             android:shape="rectangle">
-            <solid android:color="@color/rm_defaultButtonBackground"/>
+            <solid android:color="@color/rm_BtnRateTextColor"/>
             <corners
                 android:topLeftRadius="@dimen/rm_radius"
                 android:topRightRadius="@dimen/rm_radius"
                 android:bottomLeftRadius="@dimen/rm_radius"
                 android:bottomRightRadius="@dimen/rm_radius"/>
             <stroke
-                android:color="@color/rm_BtnNeverTextColor"
+                android:color="@color/rm_BtnRateTextColor"
                 android:width="@dimen/rm_background_stroke_width"/>
         </shape>
     </item>
