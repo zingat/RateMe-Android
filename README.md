@@ -22,7 +22,7 @@ Add the dependency to your `build.gradle`:
 
 ```Gradle
 dependencies {
-    implementation 'com.zingat:rateme:1.2.0'
+    implementation 'com.zingat:rateme:1.3.0'
 }
 ```
 
@@ -54,7 +54,7 @@ Now we are telling RateMe that you can show a dialog when 3 times `touch_me_even
 The event can be sent for each statement. For example when a user opens the app 4 times you can send `app_opened` event or user can like 
 a product in your app 2 times you can send `product_liked` event. For all statements you can send event seperately.
 
-The default appearance is on App like picture below.
+The default appearance is like picture below.
 
 <p align="center">
   <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/readmebranch/art/defaultRatemeDialogWindow.png">
@@ -157,11 +157,101 @@ Custom views are very easy to implement.
                     .custom(R.layout.layout_dialog)
 ```
 
-After custom view is added appearance is on App like picture below. 
+After custom view is added appearance is like picture below. 
 
 <p align="center">
   <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/readmebranch/art/customImageDialogWindow.png">
 </p>
 
+When `custom()` method is used, default title and content disappears. Only the you layout file will display on screen.
+
+It is recommended not to use buttons and different type views in custom layout.
+Because you can not provide callbacks for buttons. 
+
+# Custom Buttons
+
+You can use `customButton()` and `customButtonReverse()` methods to provide pretty much colored buttons.
+
+```kotlin
+    Rateme.getInstance(this@App)
+                 .addCondition("touch_me_event", 3)
+                 .delay(1000)
+                 .custom(R.layout.layout_dialog)
+                 .customButton()
+  ```
+
+`customButton()` and `customButtonReverse()` methods shouldn't be used together. 
+They have different type interfaces.
+   
+After `custombutton()` is added appearance is like picture below. 
+
+<p align="center">
+  <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/readmebranch/art/customButtonDialogWindow.png">
+</p>
+
+You can use the `customButtonReverse()` method with same way.
+
+# Changing colors, and texts
+
+You can change all values by creating new color items with same name in your applications.
+
+``colors.xml``
+````xml
+<resources>
+    
+    <!--Default background color for all buttons. It is active when customButton() is used.-->
+    <color name="rm_defaultButtonBackground">#fff</color>
+    
+    <!--Default text color for buttons. It is become active when customButtonReverse() is used.-->
+    <color name="rm_defaultTextColor">#fff</color>
+    
+
+    <!--Text, Border and Background color for Rate Us Button-->
+    <color name="rm_BtnRateTextColor">#02a8fe</color>
+    
+
+    <!--Text, Border and Background color for Remind Me Later Button-->
+    <color name="rm_BtnLaterTextColor">#4bca5e</color>
+    
+    <!--Text, Border and Background color for Don't Ask Again Button-->
+    <color name="rm_BtnNeverTextColor">#ff6175</color>
+    
+</resources>
+````
+
+``strings.xml``
+
+````xml
+<resources>
+    <!--Default text for Rate Us button-->
+    <string name="rateme_btn_rate_text">Rate us</string>
+    
+
+    <!--Default text for Remind Me Later button-->
+    <string name="rateme_btn_later_text">Remind Me Later</string>
+    
+
+    <!--Default text for Don't Ask again button-->
+    <string name="rateme_btn_never_text">Don\'t ask again</string>
+    
+    <!--Default dialog title. It is deactive when custom() method is used!-->
+    <string name="rateme_dialog_title">How was your experience?</string>
+    
+    <!--Default dialog context. It is deactive when custom() method is used!-->
+    <string name="rateme_dialog_message">Recommend us to others by rating us on Play Store</string>
+    
+
+</resources>
+````
+
+
+
+
+
+
+
+
+
+  
 
 
