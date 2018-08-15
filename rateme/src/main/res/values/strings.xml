@@ -1,11 +1,19 @@
 <resources>
     <string name="app_name">RateMe</string>
 
-    <!-- Dialog Strings -->
-    <string name="rateme_btn_later_text">Remind Me Later</string>
-    <string name="rateme_btn_never_text">Don\'t ask again</string>
+    <!--Default text for Rate Us button-->
     <string name="rateme_btn_rate_text">Rate us</string>
+
+    <!--Default text for Remind Me Later button-->
+    <string name="rateme_btn_later_text">Remind Me Later</string>
+
+    <!--Default text for Don't Ask again button-->
+    <string name="rateme_btn_never_text">Don\'t ask again</string>
+
+    <!--Default dialog title. It is deactive when custom() method is used!-->
     <string name="rateme_dialog_title">How was your experience?</string>
+
+    <!--Default dialog context. It is deactive when custom() method is used!-->
     <string name="rateme_dialog_message">Recommend us to others by rating us on Play Store</string>
 
 </resources>
