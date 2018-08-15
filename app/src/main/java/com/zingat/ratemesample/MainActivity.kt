@@ -22,6 +22,5 @@ class MainActivity : AppCompatActivity() {
         Rateme.getInstance(this)
                 .addEvent("touch_me_event")
 
-        Toast.makeText(this, "$count times touched", Toast.LENGTH_SHORT).show()
     }
 }
