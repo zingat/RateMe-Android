@@ -57,7 +57,7 @@ a product in your app 2 times you can send `product_liked` event. For all statem
 The default appearance is like picture below.
 
 <p align="center">
-  <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/readmebranch/art/defaultRatemeDialogWindow.png">
+  <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/master/art/defaultRatemeDialogWindow.png">
 </p>
 
 `When dialog shown on screen, user have to choose one of these options to close the window. 
@@ -160,7 +160,7 @@ Custom views are very easy to implement.
 After custom view is added appearance is like picture below. 
 
 <p align="center">
-  <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/readmebranch/art/customImageDialogWindow.png">
+  <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/master/art/customImageDialogWindow.png">
 </p>
 
 When `custom()` method is used, default title and content disappears. Only the you layout file will display on screen.
@@ -186,7 +186,7 @@ They have different type interfaces.
 After `custombutton()` is added appearance is like picture below. 
 
 <p align="center">
-  <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/readmebranch/art/customButtonDialogWindow.png">
+  <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/master/art/customButtonDialogWindow.png">
 </p>
 
 You can use the `customButtonReverse()` method with same way.
