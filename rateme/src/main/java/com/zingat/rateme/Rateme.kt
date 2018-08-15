@@ -116,24 +116,34 @@ class Rateme() {
         return this
     }
 
-    fun onRateCallback(callback: RMEventCallback) {
+    fun onRateCallback(callback: RMEventCallback): Rateme {
         this.onPositive = callback
+
+        return this
     }
 
-    fun onRemindLaterCallback(callback: RMEventCallback) {
+    fun onRemindLaterCallback(callback: RMEventCallback): Rateme {
         this.onNegative = callback
+
+        return this
     }
 
-    fun onDontAskCallback(callback: RMEventCallback) {
+    fun onDontAskCallback(callback: RMEventCallback): Rateme {
         this.onNeutral = callback
+
+        return this
     }
 
-    fun onShowCallback(callback: RMEventCallback) {
+    fun onShowCallback(callback: RMEventCallback): Rateme {
         this.onShow = callback
+
+        return this
     }
 
-    fun onRMCallback(callback: RMCallback) {
+    fun onRMCallback(callback: RMCallback): Rateme {
         this.onEvent = callback
+
+        return this
     }
     // Builder End methods
 
