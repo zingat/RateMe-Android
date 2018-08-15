@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ZingatPRO beğeni düzeyini belirtmek için bizi oylamaya ne dersin?"
+        android:text="Do you enjoy with Zingat App?"
         android:textColor="#525252"
         android:textSize="15sp"
         android:gravity="center"

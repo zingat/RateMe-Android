@@ -10,8 +10,9 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dokun bana!"
+        android:text="Touch me 3 times to see RateMe dialog!"
         android:onClick="touchMe"
+        android:layout_centerInParent="true"
         />
 
 </RelativeLayout>

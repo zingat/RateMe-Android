@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Colors-->
 <resources>
+
+    <!--Default background color for all buttons. It is active when customButton() is used.-->
+    <color name="rm_defaultButtonBackground">#fff</color>
+
+    <!--Default text color for buttons. It is become active when customButtonReverse() is used.-->
+    <color name="rm_defaultTextColor">#fff</color>
+
+    <!--Text, Border and Background color for Rate Us Button-->
     <color name="rm_BtnRateTextColor">#02a8fe</color>
-    <color name="rm_BtnLaterTextColor">#ff6175</color>
-    <color name="rm_BtnNeverTextColor">#4bca5e</color>
+
+    <!--Text, Border and Background color for Remind Me Later Button-->
+    <color name="rm_BtnLaterTextColor">#4bca5e</color>
+
+    <!--Text, Border and Background color for Don't Ask Again Button-->
+    <color name="rm_BtnNeverTextColor">#ff6175</color>
+
 </resources>
