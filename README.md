@@ -14,7 +14,8 @@
 RateMe is a powerful system to get rates from users in Android applications.
 
 RateMe takes cares to show pretty dialogs to collect rates from users so you don't have to.
-One thing you do is to define some rules and send events to RateMe library.
+One thing you do is to define some rules and send events to RateMe library. 
+RateMe watch the events you define and show the a pretty dialog to users on correct time.
 
 # Table of Contents
 
@@ -166,11 +167,6 @@ If you are listening for all three action buttons, you could just use `onRMCallb
     * NEGATIVE = 2
    
 # Custom Views
-
-// Not customView için örnek fotoğraf çekilip yüklenmedi. custom() metodu çalıştırıldktan sonra
-// ekran görüntüsü alıp img kısmına koyacağız.
-// Ardından custom ekrana buton vs. konulmaması için uyarı koyacağız çünkü buradan gelecek etkileşimler için
-// callback almıyoruz. Amacımız rateme dialogu göstermek.
 
 Custom views are very easy to implement.
 
