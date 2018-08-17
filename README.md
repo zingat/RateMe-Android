@@ -16,6 +16,22 @@ RateMe is a powerful system to get rates from users in Android applications.
 RateMe takes cares to show pretty dialogs to collect rates from users so you don't have to.
 One thing you do is to define some rules and send events to RateMe library.
 
+# Table of Contents
+
+1. [Gradle Dependency](https://github.com/zingat/RateMe-Android/#gradle-dependency)
+2. [Quick Start](https://github.com/zingat/RateMe-Android/#quick-start)
+    1. [Initialize RateMe](https://github.com/zingat/RateMe-Android/#initialize-rateme-in-your-application-class)
+    2. [How events are sent to RateMe](https://github.com/zingat/RateMe-Android/#how-touch_me_event-is-sent-to-rateme)
+3. [How button works](https://github.com/zingat/RateMe-Android/#how-buttons-works)
+    1. [Rate Us](https://github.com/zingat/RateMe-Android/#rate-us)
+    2. [Remind Me Later](https://github.com/zingat/RateMe-Android/#remind-me-later)
+    3. [Don't Ask Again](https://github.com/zingat/RateMe-Android/#dont-ask-again)
+4. [Arranging delay time](https://github.com/zingat/RateMe-Android/#arranging-delay-time)
+5. [Callbacks](https://github.com/zingat/RateMe-Android/#callbacks)
+6. [Custom Views](https://github.com/zingat/RateMe-Android/#custom-views)
+7. [Custom Buttons](https://github.com/zingat/RateMe-Android/#custom-buttons)
+7. [Changing colors and texts](https://github.com/zingat/RateMe-Android/#changing-colors-and-texts)
+
 # GRADLE DEPENDENCY
 The minimum API level supported by this library is API 15.
 Add the dependency to your `build.gradle`:
@@ -26,7 +42,7 @@ dependencies {
 }
 ```
 
-#Quick start
+# Quick start
 
 ### Initialize `RateMe` in your `Application` class
 ```kotlin
@@ -196,7 +212,8 @@ You can use the `customButtonReverse()` method with same way.
 
 You can change all values by creating new color items with same name in your applications.
 
-``colors.xml``
+### colors.xml
+
 ````xml
 <resources>
     
@@ -220,7 +237,7 @@ You can change all values by creating new color items with same name in your app
 </resources>
 ````
 
-``strings.xml``
+### strings.xml
 
 ````xml
 <resources>
