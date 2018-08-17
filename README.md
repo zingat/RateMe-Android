@@ -1,5 +1,5 @@
 ﻿<p align="center">
-  <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/readmebranch/art/ratemelogo.png">
+  <img align="middle" src="https://raw.githubusercontent.com/zingat/rateme-android/master/art/ratemelogo.png">
 </p>
 
 <p align="center">
@@ -13,8 +13,32 @@
 
 RateMe is a powerful system to get rates from users in Android applications.
 
-RateMe takes cares to show garish dialogs to collect rates from users so you don't have to.
+RateMe takes cares to show pretty dialogs to collect rates from users so you don't have to.
 One thing you do is to define some rules and send events to RateMe library.
+
+# Table of Contents
+
+1. [Gradle Dependency](https://github.com/zingat/RateMe-Android/#gradle-dependency)
+2. [Quick Start](https://github.com/zingat/RateMe-Android/#quick-start)
+    1. [Initialize RateMe](https://github.com/zingat/RateMe-Android/#initialize-rateme-in-your-application-class)
+    2. [How events are sent to RateMe](https://github.com/zingat/RateMe-Android/#how-touch_me_event-is-sent-to-rateme)
+3. [How button works](https://github.com/zingat/RateMe-Android/#how-buttons-works)
+    1. [Rate Us](https://github.com/zingat/RateMe-Android/#rate-us)
+    2. [Remind Me Later](https://github.com/zingat/RateMe-Android/#remind-me-later)
+    3. [Don't Ask Again](https://github.com/zingat/RateMe-Android/#dont-ask-again)
+4. [Arranging delay time](https://github.com/zingat/RateMe-Android/#arranging-delay-time)
+5. [Callbacks](https://github.com/zingat/RateMe-Android/#callbacks)
+6. [Custom Views](https://github.com/zingat/RateMe-Android/#custom-views)
+7. [Custom Buttons](https://github.com/zingat/RateMe-Android/#custom-buttons)
+8. [Changing colors and texts](https://github.com/zingat/RateMe-Android/#changing-colors-and-texts)
+    1. [colors.xml](https://github.com/zingat/RateMe-Android/#colorsxml)
+    2. [strings.xml](https://github.com/zingat/RateMe-Android/#strings.xml)
+9. [Adding Multiple Conditions](https://github.com/zingat/RateMe-Android/#adding-multiple-conditions)   
+    1. [Adding one by one](https://github.com/zingat/RateMe-Android/#adding-one-by-one)   
+    2. [Adding all as Collection](https://github.com/zingat/RateMe-Android/#adding-all-as-collection)   
+    3. [How multiple conditions work](https://github.com/zingat/RateMe-Android/#how-multiple-conditions-work)
+    
+------
 
 # GRADLE DEPENDENCY
 The minimum API level supported by this library is API 15.
@@ -26,7 +50,7 @@ dependencies {
 }
 ```
 
-#Quick start
+# Quick start
 
 ### Initialize `RateMe` in your `Application` class
 ```kotlin
@@ -36,6 +60,7 @@ dependencies {
            super.onCreate()
    
            Rateme.getInstance(this@App)
+                   // `addCondition(conditionName,repeatTime)`
                    .addCondition("touch_me_event", 3)
                    .reminderDuration(3)
        }
@@ -43,7 +68,7 @@ dependencies {
    }
 ```
 
-Now we are telling RateMe that you can show a dialog when 3 times `touch_me_event` is sent.
+Now we are telling to RateMe that you can show a dialog when 3 times `touch_me_event` is sent.
 
 ### How `touch_me_event` is sent to RateMe.
 ```kotlin
@@ -195,7 +220,8 @@ You can use the `customButtonReverse()` method with same way.
 
 You can change all values by creating new color items with same name in your applications.
 
-``colors.xml``
+### colors.xml
+
 ````xml
 <resources>
     
@@ -219,7 +245,7 @@ You can change all values by creating new color items with same name in your app
 </resources>
 ````
 
-``strings.xml``
+### strings.xml
 
 ````xml
 <resources>
@@ -244,14 +270,55 @@ You can change all values by creating new color items with same name in your app
 </resources>
 ````
 
+# Adding Multiple Conditions
 
+There are two different easy way to add multiple conditions to RateMe library.
 
+### Adding one by one
 
+You can add on by one all condition. You can add event how much you want with this way. 
 
+````kotlin
+Rateme.getInstance(this@App)
+                   // `addCondition(conditionName,repeatTime)`
+                   .addCondition("touch_me_event", 3)
+                   .addCondition("slide_me_event", 2)
+                   .addCondition("rotate_me_event", 4)
+                   .reminderDuration(3)
+````
 
+### Adding all as Collection
 
+Every condition represents with `Condition` object. Condition object has two variables.
+`count` and `type`.
 
+You can create own `Condition` object and you can add this Condition object in a ArrayList. 
+Finally you can use `setConditionList( conditionList : ArrayList<Condition> )` method.
 
-  
+```kotlin
+    package com.zingat.rateme.model
 
+    val conditionList = ArrayList<Condition>
+    conditionList.add( Condition( 3, "touch_me_event" ) )
+    conditionList.add( Condition( 2, "slide_me_event" ) )
+    conditionList.add( Condition( 4, "rotate_me_event" ) )
+    
+    Rateme.getInstance(this@App)
+                       .setConditionList(conditionList)
+                       .reminderDuration(3)
+``` 
 
+### How multiple conditions work
+
+When multiple events are added, RateMe shows dialog when one of conditions are completed and even other events 
+completed, RateMe won't show a new dialog to user.
+
+For exameple; if `slide_me_event` condition is completed , RateMe will show a new dialog and if user click `Rate Us` or `Don't show again`
+buttons, even user complete the `touch_me_event` new dialog won't show. RateMe waits always the first completed condition rules.
+In this way user won't be disturbed multiple times.
+
+<p align="right">
+    <img 
+        align="right" 
+        src="https://raw.githubusercontent.com/zingat/rateme-android/master/art/zingatLogo.png" width="320">
+</p>
