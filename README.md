@@ -30,7 +30,15 @@ One thing you do is to define some rules and send events to RateMe library.
 5. [Callbacks](https://github.com/zingat/RateMe-Android/#callbacks)
 6. [Custom Views](https://github.com/zingat/RateMe-Android/#custom-views)
 7. [Custom Buttons](https://github.com/zingat/RateMe-Android/#custom-buttons)
-7. [Changing colors and texts](https://github.com/zingat/RateMe-Android/#changing-colors-and-texts)
+8. [Changing colors and texts](https://github.com/zingat/RateMe-Android/#changing-colors-and-texts)
+    1. [colors.xml](https://github.com/zingat/RateMe-Android/#colorsxml)
+    2. [strings.xml](https://github.com/zingat/RateMe-Android/#strings.xml)
+9. [Adding Multiple Conditions](https://github.com/zingat/RateMe-Android/#adding-multiple-conditions)   
+    1. [Adding one by one](https://github.com/zingat/RateMe-Android/#adding-one-by-one)   
+    2. [Adding all as Collection](https://github.com/zingat/RateMe-Android/#adding-all-as-collection)   
+    3. [How multiple conditions work](https://github.com/zingat/RateMe-Android/#how-multiple-conditions-work)
+    
+------
 
 # GRADLE DEPENDENCY
 The minimum API level supported by this library is API 15.
@@ -279,7 +287,7 @@ Rateme.getInstance(this@App)
                    .reminderDuration(3)
 ````
 
-### Adding all as Collectionn
+### Adding all as Collection
 
 Every condition represents with `Condition` object. Condition object has two variables.
 `count` and `type`.
@@ -312,5 +320,5 @@ In this way user won't be disturbed multiple times.
 <p align="right">
     <img 
         align="right" 
-        src="https://raw.githubusercontent.com/zingat/rateme-android/v1.4.0/art/zingatLogo.png" width="320">
+        src="https://raw.githubusercontent.com/zingat/rateme-android/master/art/zingatLogo.png" width="320">
 </p>
